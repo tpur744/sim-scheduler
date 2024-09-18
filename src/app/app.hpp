@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "SimScheduler.hpp"
 /*
 *****************************
   This is where you start!
@@ -12,6 +13,8 @@
 
 class App {
  private:
+  SimScheduler simScheduler;
+
  public:
   App(void);
   ~App(void);

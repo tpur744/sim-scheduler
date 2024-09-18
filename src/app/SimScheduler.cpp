@@ -10,10 +10,9 @@ SimScheduler::~SimScheduler() {
 
 void SimScheduler::addScheduler() {
   if (schedulerAdded_) {
-    std::cout << "Cannot add another scheduler" << std::endl;
+    return;
   } else {
     schedulerAdded_ = true;  // Update the flag
-    std::cout << "Added scheduler" << std::endl;
   }
 }
 
