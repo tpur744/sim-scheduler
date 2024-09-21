@@ -38,24 +38,25 @@ void App::AddScheduler() {
 void App::RemoveScheduler() {
   if (!simScheduler.isSchedulerAdded()) {
     // Print error message if the scheduler is not added
-    cout << "No scheduler to remove." << endl;
+    cout << "Cannot perform that operation without a scheduler." << endl;
     return;
   }
   if (simScheduler.removeScheduler()) {
-    std::cout << "Scheduler removed." << std::endl;
+    std::cout << "Removed scheduler." << std::endl;
   } else {
-    std::cout << "Remove cores first" << std::endl;
+    std::cout << "Cannot perform that operation without first removing core(s)."
+              << std::endl;
   }
 }
 
 void App::AddCore(const std::string &core_type) {
   if (!simScheduler.isSchedulerAdded()) {
-    cout << "Scheduler must be added before adding cores." << endl;
+    cout << "Cannot perform that operation without a scheduler." << endl;
     return;
   }
 
   if (simScheduler.getNextCoreId() >= 8) {
-    cout << "Cannot add more than 8 cores." << endl;
+    cout << "Cannot add another core." << endl;
     return;
   }
 
@@ -66,7 +67,7 @@ void App::AddCore(const std::string &core_type) {
   } else if (upperCoreType == "PRIORITY") {
     newCore = new PriorityCore(simScheduler.getNextCoreId());
   } else {
-    cout << "Invalid core type. Please enter 'FIFO' or 'priority'." << endl;
+    cout << "Specified core type is unknown." << endl;
     return;
   }
 
