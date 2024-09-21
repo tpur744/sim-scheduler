@@ -78,12 +78,13 @@ void App::AddCore(const std::string &core_type) {
 
 void App::RemoveCore(const std::string &core_id) {
   if (!simScheduler.isSchedulerAdded()) {
-    std::cout << "Scheduler must be added before removing cores." << std::endl;
+    std::cout << "Cannot perform that operation without a scheduler."
+              << std::endl;
     return;
   }
 
   if (!Utils::IsInteger(core_id)) {
-    std::cout << "Invalid core ID. Please enter a valid integer." << std::endl;
+    std::cout << "Specified core type is unknown." << std::endl;
     return;
   }
 
@@ -104,6 +105,24 @@ void App::AddTask(const std::string &task_time, const std::string &priority) {}
 
 void App::RemoveTask(const std::string &task_id) {}
 
-void App::ShowCore(const std::string &excore_id) const {}
+void App::ShowCore(const std::string &excore_id) const {
+  if (!simScheduler.isSchedulerAdded()) {
+    std::cout << "Cannot perform that operation without a scheduler."
+              << std::endl;
+    return;
+  }
+  if (!Utils::IsInteger(excore_id)) {
+    std::cout << "Specified core type is unknown." << std::endl;
+    return;
+  }
+  int id = std::stoi(excore_id);
+  if (id < 0 || id >= simScheduler.getNextCoreId()) {
+    std::cout << "No core with ID " << excore_id << "." << std::endl;
+    return;
+  }
+  std::cout << "Core " << excore_id
+            << " is currently assigned 0 task(s) and has completed 0 task(s)."
+            << std::endl;
+}
 
 void App::ShowTask(const std::string &task_id) const {}
