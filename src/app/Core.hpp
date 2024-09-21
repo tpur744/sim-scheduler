@@ -3,8 +3,8 @@
 
 class Core {
  protected:
-  int id;
-  int pending_time;
+  int id_;
+  int pending_time_;
 
  public:
   // Constructor to initialize the Core with an ID

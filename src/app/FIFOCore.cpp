@@ -1,31 +1,31 @@
 #include "FIFOCore.hpp"
 
 // Constructor
-FIFOCore::FIFOCore(int id) : Core(id), head(nullptr), tail(nullptr) {}
+FIFOCore::FIFOCore(int id) : Core(id), head_(nullptr), tail_(nullptr) {}
 
 // Add a task to the end of the linked list (FIFO behavior)
 void FIFOCore::addTask(int task_time, int priority) {
   TaskNode* newTask = new TaskNode(task_time, priority);
 
-  if (!head) {
+  if (!head_) {
     // If the list is empty, the new task is both head and tail
-    head = newTask;
-    tail = newTask;
+    head_ = newTask;
+    tail_ = newTask;
   } else {
     // Add the new task to the end of the list
-    tail->next = newTask;
-    tail = newTask;
+    tail_->next_ = newTask;
+    tail_ = newTask;
   }
 
   // Increase the pending time
-  pending_time += task_time;
+  pending_time_ += task_time;
 }
 
 // Destructor to free memory
 FIFOCore::~FIFOCore() {
-  TaskNode* current = head;
+  TaskNode* current = head_;
   while (current) {
-    TaskNode* next = current->next;
+    TaskNode* next = current->next_;  // Use next_ here
     delete current;
     current = next;
   }

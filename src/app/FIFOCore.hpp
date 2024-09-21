@@ -8,16 +8,16 @@ class FIFOCore : public Core {
   // Define a linked list node within the class
   class TaskNode {
    public:
-    int task_time;
-    int priority;
-    TaskNode* next;
+    int task_time_;
+    int priority_;
+    TaskNode* next_;
 
     TaskNode(int time, int priority)
-        : task_time(time), priority(priority), next(nullptr) {}
+        : task_time_(time), priority_(priority), next_(nullptr) {}
   };
 
-  TaskNode* head;  // Pointer to the head of the task list
-  TaskNode* tail;  // Pointer to the tail of the task list
+  TaskNode* head_;  // Pointer to the head of the task list
+  TaskNode* tail_;  // Pointer to the tail of the task list
 
  public:
   // Constructor
