@@ -33,6 +33,8 @@ class SimScheduler {
   int getNextCoreId() const;
 
   bool addCore(Core* core);
+
+  bool removeCore(int coreId);
 };
 
 #endif  // SIMSCHEDULER_HPP

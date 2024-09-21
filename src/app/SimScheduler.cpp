@@ -66,3 +66,18 @@ int SimScheduler::getNextCoreId() const {
   return coreCount_;  // Returns the next available ID based on the current
                       // count
 }
+
+bool SimScheduler::removeCore(int coreId) {
+  if (coreId < 0 || coreId >= coreCount_) {
+    return false;  // Invalid core ID
+  }
+
+  delete cores_[coreId];  // Free the memory for the core
+  for (int i = coreId; i < coreCount_ - 1; ++i) {
+    cores_[i] = cores_[i + 1];  // Shift left
+  }
+  cores_[coreCount_ - 1] = nullptr;  // Clear the last core pointer
+  coreCount_--;                      // Decrease the core count
+
+  return true;  // Indicate success
+}
