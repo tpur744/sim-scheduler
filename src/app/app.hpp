@@ -1,8 +1,13 @@
 #ifndef APP_H
 #define APP_H
 
+#include <iostream>
 #include <string>
+#include <vector>
 
+#include "Core.hpp"
+#include "FIFOCore.hpp"
+#include "PriorityCore.hpp"
 #include "SimScheduler.hpp"
 /*
 *****************************

@@ -1,5 +1,6 @@
 #include "FIFOCore.hpp"
 
+#include "Core.hpp"
 // Constructor
 FIFOCore::FIFOCore(int id) : Core(id), head_(nullptr), tail_(nullptr) {}
 

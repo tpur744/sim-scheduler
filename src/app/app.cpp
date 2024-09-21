@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+#include "Core.hpp"
+#include "FIFOCore.hpp"
+#include "PriorityCore.hpp"
 #include "SimScheduler.hpp"
 #include "message.hpp"
 #include "utils.hpp"
@@ -34,7 +37,32 @@ void App::AddScheduler() {
 
 void App::RemoveScheduler() {}
 
-void App::AddCore(const std::string &core_type) {}
+void App::AddCore(const std::string &core_type) {
+  if (!simScheduler.isSchedulerAdded()) {
+    cout << "Scheduler must be added before adding cores." << endl;
+    return;
+  }
+
+  if (simScheduler.getNextCoreId() >= 8) {
+    cout << "Cannot add more than 8 cores." << endl;
+    return;
+  }
+
+  Core *newCore = nullptr;
+  std::string upperCoreType = Utils::GetUppercase(core_type);
+  if (upperCoreType == "FIFO") {
+    newCore = new FIFOCore(simScheduler.getNextCoreId());
+  } else if (upperCoreType == "PRIORITY") {
+    newCore = new PriorityCore(simScheduler.getNextCoreId());
+  } else {
+    cout << "Invalid core type. Please enter 'FIFO' or 'priority'." << endl;
+    return;
+  }
+
+  simScheduler.addCore(newCore);
+  cout << "Added core of type: " << core_type
+       << " with ID: " << simScheduler.getNextCoreId() - 1 << endl;
+}
 
 void App::RemoveCore(const std::string &core_id) {}
 
