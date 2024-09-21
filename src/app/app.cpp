@@ -61,10 +61,10 @@ void App::AddCore(const std::string &core_type) {
   }
 
   Core *newCore = nullptr;
-  std::string upperCoreType = Utils::GetUppercase(core_type);
-  if (upperCoreType == "FIFO") {
+  std::string lowerCoreType = Utils::GetLowercase(core_type);
+  if (lowerCoreType == "fifo") {
     newCore = new FIFOCore(simScheduler.getNextCoreId());
-  } else if (upperCoreType == "PRIORITY") {
+  } else if (lowerCoreType == "priority") {
     newCore = new PriorityCore(simScheduler.getNextCoreId());
   } else {
     cout << "Specified core type is unknown." << endl;
@@ -72,8 +72,8 @@ void App::AddCore(const std::string &core_type) {
   }
 
   simScheduler.addCore(newCore);
-  cout << "Added core of type: " << core_type
-       << " with ID: " << simScheduler.getNextCoreId() - 1 << endl;
+  cout << "Added core of type '" << lowerCoreType
+       << "' with ID: " << simScheduler.getNextCoreId() - 1 << endl;
 }
 
 void App::RemoveCore(const std::string &core_id) {}
