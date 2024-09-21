@@ -26,13 +26,27 @@ void SimScheduler::addScheduler() {
     schedulerAdded_ = true;  // Update the flag
   }
 }
+bool SimScheduler::hasCores() const {
+  return coreCount_ > 0;  // Check if any cores are present
+}
 
 // Method to remove the scheduler
-void SimScheduler::removeScheduler() {
+bool SimScheduler::removeScheduler() {
   if (schedulerAdded_) {
-    schedulerAdded_ = false;  // Update the flag
-                              // No output here
+    if (hasCores()) {
+      return false;  // Cannot remove scheduler while cores are present
+    }
+
+    // Free memory for each core
+    for (int i = 0; i < coreCount_; ++i) {
+      delete cores_[i];
+      cores_[i] = nullptr;  // Set to nullptr after deletion
+    }
+    coreCount_ = 0;           // Reset core count
+    schedulerAdded_ = false;  // Mark the scheduler as removed
+    return true;              // Indicate success
   }
+  return false;  // Indicate no scheduler was present
 }
 
 // Method to check if the scheduler is added

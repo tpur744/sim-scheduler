@@ -35,7 +35,18 @@ void App::AddScheduler() {
   }
 }
 
-void App::RemoveScheduler() {}
+void App::RemoveScheduler() {
+  if (!simScheduler.isSchedulerAdded()) {
+    // Print error message if the scheduler is not added
+    cout << "No scheduler to remove." << endl;
+    return;
+  }
+  if (simScheduler.removeScheduler()) {
+    std::cout << "Scheduler removed." << std::endl;
+  } else {
+    std::cout << "Remove cores first" << std::endl;
+  }
+}
 
 void App::AddCore(const std::string &core_type) {
   if (!simScheduler.isSchedulerAdded()) {
