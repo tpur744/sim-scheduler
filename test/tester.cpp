@@ -102,7 +102,13 @@ int main(int argc, char *argv[]) {
       RUN_COMMAND("remove-scheduler");
       RUN_COMMAND("exit");
       EXPECT_CONTAINS("Added scheduler");
+      EXPECT_CONTAINS("Cannot add another scheduler.");
       EXPECT_CONTAINS("Added core of type 'fifo' with ID 0.");
+      EXPECT_CONTAINS(
+          "Core 0 is currently assigned 0 task(s) and has completed 0 "
+          "task(s).");
+      EXPECT_CONTAINS("Removed core 0.");
+      EXPECT_CONTAINS("Removed scheduler.");
       break;
 
     case 3:  //
@@ -118,6 +124,16 @@ int main(int argc, char *argv[]) {
       RUN_COMMAND("remove-scheduler");
       RUN_COMMAND("exit");
       EXPECT_CONTAINS("Added scheduler");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 0.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 1.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 2.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 3.");
+      EXPECT_CONTAINS("Removed core 2.");
+      EXPECT_CONTAINS("Removed core 1.");
+      EXPECT_CONTAINS("Removed core 0.");
+      EXPECT_CONTAINS(
+          "Cannot perform that operation without first removing core(s).");
+
       break;
 
     case 4:  //
@@ -131,6 +147,17 @@ int main(int argc, char *argv[]) {
       RUN_COMMAND("remove-scheduler");
       RUN_COMMAND("exit");
       EXPECT_CONTAINS("Added scheduler");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 0.");
+      EXPECT_CONTAINS("Added core of type 'priority' with ID 1.");
+      EXPECT_CONTAINS(
+          "Core 0 is currently assigned 0 task(s) and has completed 0 "
+          "task(s).");
+      EXPECT_CONTAINS(
+          "Core 1 is currently assigned 0 task(s) and has completed "
+          "0 task(s).");
+      EXPECT_CONTAINS("Removed core 0.");
+      EXPECT_CONTAINS("Removed core 1.");
+      EXPECT_CONTAINS("Removed scheduler.");
       break;
 
     case 5:  //

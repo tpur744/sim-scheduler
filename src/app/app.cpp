@@ -72,8 +72,8 @@ void App::AddCore(const std::string &core_type) {
   }
 
   simScheduler.addCore(newCore);
-  cout << "Added core of type '" << lowerCoreType
-       << "' with ID: " << simScheduler.getNextCoreId() - 1 << endl;
+  cout << "Added core of type '" << lowerCoreType << "' with ID "
+       << simScheduler.getNextCoreId() - 1 << "." << endl;
 }
 
 void App::RemoveCore(const std::string &core_id) {
