@@ -28,7 +28,12 @@ void SimScheduler::addScheduler() {
 }
 
 bool SimScheduler::hasCores() const {
-  return core_count_ > 0;  // Check if any cores are present
+  for (int i = 0; i < core_count_; ++i) {
+    if (cores_[i] != nullptr) {
+      return true;  // Found a core that still exists
+    }
+  }
+  return false;  // No active cores
 }
 
 // Method to remove the scheduler

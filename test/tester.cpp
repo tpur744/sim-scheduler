@@ -156,8 +156,9 @@ int main(int argc, char *argv[]) {
           "Core 1 is currently assigned 0 task(s) and has completed "
           "0 task(s).");
       EXPECT_CONTAINS("Removed core 0.");
-      EXPECT_CONTAINS("No core with ID 1.");
+      EXPECT_CONTAINS("Removed core 1.");
       EXPECT_CONTAINS("Removed scheduler.");
+
       break;
 
     case 5:  //
