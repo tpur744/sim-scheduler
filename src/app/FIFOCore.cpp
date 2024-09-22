@@ -26,7 +26,7 @@ void FIFOCore::addTask(int task_time, int priority) {
 FIFOCore::~FIFOCore() {
   TaskNode* current = head_;
   while (current) {
-    TaskNode* next = current->next_;  // Use next_ here
+    TaskNode* next = current->next_;
     delete current;
     current = next;
   }

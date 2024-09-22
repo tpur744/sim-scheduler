@@ -120,6 +120,12 @@ void App::ShowCore(const std::string &excore_id) const {
     std::cout << "No core with ID " << excore_id << "." << std::endl;
     return;
   }
+
+  if (simScheduler.getCore(id) == nullptr) {
+    std::cout << "No core with ID " << excore_id << "." << std::endl;
+    return;
+  }
+
   std::cout << "Core " << excore_id
             << " is currently assigned 0 task(s) and has completed 0 task(s)."
             << std::endl;

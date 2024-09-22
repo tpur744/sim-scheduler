@@ -9,7 +9,7 @@ class SimScheduler {
  private:
   bool schedulerAdded_;  // Flag to track if the scheduler is added
   Core* cores_[8];       // Fixed-size array for up to 8 cores
-  int coreCount_;
+  int core_count_;
 
  public:
   // Constructor
@@ -34,7 +34,9 @@ class SimScheduler {
 
   bool addCore(Core* core);
 
-  bool removeCore(int coreId);
+  bool removeCore(int core_id);
+
+  Core* getCore(int core_id) const;
 };
 
 #endif  // SIMSCHEDULER_HPP
