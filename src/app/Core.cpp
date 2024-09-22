@@ -27,3 +27,6 @@ int Core::GetCompletedTaskCount() const { return completed_task_count_; }
 
 // Virtual destructor
 Core::~Core() {}
+
+// Get the ID of the core
+int Core::GetID() const { return id_; }

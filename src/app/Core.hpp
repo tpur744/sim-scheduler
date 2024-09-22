@@ -29,6 +29,8 @@ class Core {
   int GetAssignedTaskCount() const;
   int GetCompletedTaskCount() const;
   void CompleteTask();
+
+  int GetID() const;
 };
 
 #endif

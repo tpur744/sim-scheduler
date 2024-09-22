@@ -30,7 +30,6 @@ void FIFOCore::AssignTask(Task* task) {
     AddTask(task->GetTime(), task->GetPriority());  // Add the task
     assigned_task_count_++;  // Increment assigned task count
     task->MarkAsAssigned();  // Mark the task as assigned
-    std::cout << "Assigning to FIFO core" << std::endl;
   }
 }
 

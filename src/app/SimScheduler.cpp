@@ -113,31 +113,37 @@ int SimScheduler::AddTask(int time, int priority) {
 
   return newTask->GetID();  // Return the ID of the newly added task
 }
+
 void SimScheduler::AssignTasks() {
   Task* currentTask = task_list_head_;
 
   while (currentTask) {
-    bool assigned = false;
+    Core* bestCore = nullptr;
+    int lowestPendingTime = INT_MAX;  // Start with a high value for comparison
 
-    // Try to assign to a Priority core first
+    // Evaluate all cores to find the best one for this task
     for (int i = 0; i < core_count_; ++i) {
       Core* core = cores_[i];
-      if (core && core->GetCoreType() == PRIORITY) {
-        core->AssignTask(currentTask);
-        assigned = true;
-        break;
+      if (core) {
+        int pendingTime =
+            core->getPendingTime();  // Get the pending time for this core
+
+        // Check if this core is a better fit
+        if (pendingTime < lowestPendingTime) {
+          lowestPendingTime = pendingTime;
+          bestCore = core;  // Update best core
+        } else if (pendingTime == lowestPendingTime) {
+          // If there's a tie, choose the one with the lower ID
+          if (bestCore == nullptr || core->GetID() < bestCore->GetID()) {
+            bestCore = core;
+          }
+        }
       }
     }
 
-    // If not assigned to a priority core, try FIFO cores
-    if (!assigned) {
-      for (int i = 0; i < core_count_; ++i) {
-        Core* core = cores_[i];
-        if (core && core->GetCoreType() == FIFO) {
-          core->AssignTask(currentTask);
-          break;
-        }
-      }
+    // If a suitable core was found, assign the task
+    if (bestCore) {
+      bestCore->AssignTask(currentTask);
     }
 
     // Move to the next task in the list
