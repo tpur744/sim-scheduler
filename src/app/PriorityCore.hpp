@@ -25,6 +25,10 @@ class PriorityCore : public Core {
   // Override AddTask for priority behavior
   void AddTask(int task_time, int priority) override;
 
+  void AssignTask(Task* task) override;
+
+  CoreType GetCoreType() const override { return PRIORITY; }
+
   // Destructor to clear the task list
   ~PriorityCore();
 };

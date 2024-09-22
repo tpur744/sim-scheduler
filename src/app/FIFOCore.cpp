@@ -1,5 +1,8 @@
 #include "FIFOCore.hpp"
 
+#include <iostream>
+#include <string>
+
 #include "Core.hpp"
 // Constructor
 FIFOCore::FIFOCore(int id) : Core(id), head_(nullptr), tail_(nullptr) {}
@@ -20,6 +23,15 @@ void FIFOCore::AddTask(int task_time, int priority) {
 
   // Increase the pending time
   pending_time_ += task_time;
+}
+
+void FIFOCore::AssignTask(Task* task) {
+  if (!task->IsAssigned()) {  // Check if the task is already assigned
+    AddTask(task->GetTime(), task->GetPriority());  // Add the task
+    assigned_task_count_++;  // Increment assigned task count
+    task->MarkAsAssigned();  // Mark the task as assigned
+    std::cout << "Assigning to FIFO core" << std::endl;
+  }
 }
 
 // Destructor to free memory

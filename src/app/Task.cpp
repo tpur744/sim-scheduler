@@ -13,8 +13,8 @@ Task* Task::GetNext() const { return next_; }
 // Setter for next task pointer
 void Task::SetNext(Task* next) { next_ = next; }
 
-// Destructor (if you plan to dynamically allocate memory, otherwise can be
-// omitted)
-Task::~Task() {
-  // Clean up if necessary (though not much to do in this case)
-}
+bool Task::IsAssigned() const { return assigned_; }
+
+void Task::MarkAsAssigned() { assigned_ = true; }
+
+Task::~Task() {}

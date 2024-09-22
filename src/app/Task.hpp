@@ -16,9 +16,12 @@ class Task {
   int GetID() const;
   int GetTime() const;
   int GetPriority() const;
+  bool IsAssigned() const;
+  void MarkAsAssigned();
 
   Task* GetNext() const;     // Get next task in the list
   void SetNext(Task* next);  // Set the next task
+  bool assigned_ = false;
 
   // Destructor
   ~Task();

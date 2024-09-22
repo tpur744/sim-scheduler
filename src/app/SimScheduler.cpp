@@ -1,6 +1,7 @@
 #include "SimScheduler.hpp"
 
 #include <iostream>
+#include <string>
 
 #include "FIFOCore.hpp"
 #include "PriorityCore.hpp"
@@ -111,4 +112,35 @@ int SimScheduler::AddTask(int time, int priority) {
   }
 
   return newTask->GetID();  // Return the ID of the newly added task
+}
+void SimScheduler::AssignTasks() {
+  Task* currentTask = task_list_head_;
+
+  while (currentTask) {
+    bool assigned = false;
+
+    // Try to assign to a Priority core first
+    for (int i = 0; i < core_count_; ++i) {
+      Core* core = cores_[i];
+      if (core && core->GetCoreType() == PRIORITY) {
+        core->AssignTask(currentTask);
+        assigned = true;
+        break;
+      }
+    }
+
+    // If not assigned to a priority core, try FIFO cores
+    if (!assigned) {
+      for (int i = 0; i < core_count_; ++i) {
+        Core* core = cores_[i];
+        if (core && core->GetCoreType() == FIFO) {
+          core->AssignTask(currentTask);
+          break;
+        }
+      }
+    }
+
+    // Move to the next task in the list
+    currentTask = currentTask->GetNext();
+  }
 }

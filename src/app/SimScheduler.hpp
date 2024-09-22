@@ -48,6 +48,8 @@ class SimScheduler {
   Task* FindTask(int id);
 
   void ClearTasks();
+
+  void AssignTasks();
 };
 
 #endif  // SIMSCHEDULER_HPP

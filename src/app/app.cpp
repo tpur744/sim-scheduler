@@ -126,11 +126,13 @@ void App::AddTask(const std::string &task_time, const std::string &priority) {
   int prio = std::stoi(priority);
 
   // Add the task and retrieve its ID
-  int task_id =
-      simScheduler.AddTask(time, prio);  // Modify AddTask to return task ID
+  int task_id = simScheduler.AddTask(time, prio);
 
   std::cout << "Added task with ID " << task_id << ", task time of " << time
             << ", and priority of " << prio << "." << std::endl;
+
+  // Now assign the tasks to available cores
+  simScheduler.AssignTasks();
 }
 
 void App::RemoveTask(const std::string &task_id) {}
@@ -158,14 +160,15 @@ void App::ShowCore(const std::string &excore_id) const {
     return;
   }
 
-  if (simScheduler.GetCore(id) == nullptr) {
+  Core *core = simScheduler.GetCore(id);
+  if (core == nullptr) {
     std::cout << "No core with ID " << excore_id << "." << std::endl;
     return;
   }
 
-  std::cout << "Core " << excore_id
-            << " is currently assigned 0 task(s) and has completed 0 task(s)."
-            << std::endl;
+  std::cout << "Core " << excore_id << " is currently assigned "
+            << core->GetAssignedTaskCount() << " task(s) and has completed "
+            << core->GetCompletedTaskCount() << " task(s)." << std::endl;
 }
 
 void App::ShowTask(const std::string &task_id) const {}
