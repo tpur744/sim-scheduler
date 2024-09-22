@@ -4,12 +4,21 @@
 class Task {
  public:
   // Constructor
-  Task(int id, int time, int priority);
+  Task(int time, int priority);
 
   // Getters
-  int getId() const;
-  int getTime() const;
-  int getPriority() const;
+  int GetID() const;
+  int GetTime() const;
+  int GetPriority() const;
+
+  // Linked list management
+  void AddTask(Task*& head, int time, int priority);
+  void RemoveTask(Task*& head, int id);
+  Task* FindTask(Task* head, int id);
+  void ClearTasks(Task*& head);
+
+  // Pointer to the next task in the list
+  Task* next;
 
  private:
   int id_;        // Unique identifier for the task

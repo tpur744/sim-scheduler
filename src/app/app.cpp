@@ -25,23 +25,23 @@ App::~App() {}
 void App::TickTock(const std::string &num_ticktock) {}
 
 void App::AddScheduler() {
-  if (simScheduler.isSchedulerAdded()) {
+  if (simScheduler.IsSchedulerAdded()) {
     // Print error message if the scheduler is already added
     cout << "Cannot add another scheduler." << endl;
   } else {
     // Add the scheduler and print suc cess message
-    simScheduler.addScheduler();
+    simScheduler.AddScheduler();
     cout << "Added scheduler." << endl;
   }
 }
 
 void App::RemoveScheduler() {
-  if (!simScheduler.isSchedulerAdded()) {
+  if (!simScheduler.IsSchedulerAdded()) {
     // Print error message if the scheduler is not added
     cout << "Cannot perform that operation without a scheduler." << endl;
     return;
   }
-  if (simScheduler.removeScheduler()) {
+  if (simScheduler.RemoveScheduler()) {
     std::cout << "Removed scheduler." << std::endl;
   } else {
     std::cout << "Cannot perform that operation without first removing core(s)."
@@ -50,7 +50,7 @@ void App::RemoveScheduler() {
 }
 
 void App::AddCore(const std::string &core_type) {
-  if (!simScheduler.isSchedulerAdded()) {
+  if (!simScheduler.IsSchedulerAdded()) {
     cout << "Cannot perform that operation without a scheduler." << endl;
     return;
   }
@@ -71,15 +71,20 @@ void App::AddCore(const std::string &core_type) {
     return;
   }
 
-  simScheduler.addCore(newCore);
+  simScheduler.AddCore(newCore);
   cout << "Added core of type '" << lowerCoreType << "' with ID "
        << simScheduler.getNextCoreId() - 1 << "." << endl;
 }
 
 void App::RemoveCore(const std::string &core_id) {
-  if (!simScheduler.isSchedulerAdded()) {
+  if (!simScheduler.IsSchedulerAdded()) {
     std::cout << "Cannot perform that operation without a scheduler."
               << std::endl;
+    return;
+  }
+
+  if (!simScheduler.HasCores()) {
+    std::cout << "Cannot perform that operation without a core." << std::endl;
     return;
   }
 
@@ -94,7 +99,7 @@ void App::RemoveCore(const std::string &core_id) {
     return;
   }
 
-  if (simScheduler.removeCore(id)) {
+  if (simScheduler.RemoveCore(id)) {
     std::cout << "Removed core " << id << "." << std::endl;
   } else {
     std::cout << "Core " << id << "is currently executing a task." << std::endl;
@@ -106,22 +111,29 @@ void App::AddTask(const std::string &task_time, const std::string &priority) {}
 void App::RemoveTask(const std::string &task_id) {}
 
 void App::ShowCore(const std::string &excore_id) const {
-  if (!simScheduler.isSchedulerAdded()) {
+  if (!simScheduler.IsSchedulerAdded()) {
     std::cout << "Cannot perform that operation without a scheduler."
               << std::endl;
     return;
   }
+
+  if (!simScheduler.HasCores()) {
+    std::cout << "Cannot perform that operation without a core." << std::endl;
+    return;
+  }
+
   if (!Utils::IsInteger(excore_id)) {
     std::cout << "Specified core type is unknown." << std::endl;
     return;
   }
+
   int id = std::stoi(excore_id);
   if (id < 0 || id >= simScheduler.getNextCoreId()) {
     std::cout << "No core with ID " << excore_id << "." << std::endl;
     return;
   }
 
-  if (simScheduler.getCore(id) == nullptr) {
+  if (simScheduler.GetCore(id) == nullptr) {
     std::cout << "No core with ID " << excore_id << "." << std::endl;
     return;
   }

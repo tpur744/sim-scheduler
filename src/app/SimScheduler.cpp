@@ -4,9 +4,11 @@
 
 #include "FIFOCore.hpp"
 #include "PriorityCore.hpp"
+#include "Task.hpp"
 
 // Constructor
-SimScheduler::SimScheduler() : schedulerAdded_(false), core_count_(0) {
+SimScheduler::SimScheduler()
+    : schedulerAdded_(false), core_count_(0), task_list_head_(nullptr) {
   for (int i = 0; i < 8; ++i) {
     cores_[i] = nullptr;  // Initialize pointers to null
   }
@@ -14,20 +16,20 @@ SimScheduler::SimScheduler() : schedulerAdded_(false), core_count_(0) {
 
 // Destructor
 SimScheduler::~SimScheduler() {
-  removeScheduler();  // Ensure scheduler is removed on destruction
+  RemoveScheduler();  // Ensure scheduler is removed on destruction
   for (int i = 0; i < core_count_; i++) {
     delete cores_[i];  // Clean up allocated cores
   }
 }
 
 // Method to add the scheduler
-void SimScheduler::addScheduler() {
+void SimScheduler::AddScheduler() {
   if (!schedulerAdded_) {
     schedulerAdded_ = true;  // Update the flag
   }
 }
 
-bool SimScheduler::hasCores() const {
+bool SimScheduler::HasCores() const {
   for (int i = 0; i < core_count_; ++i) {
     if (cores_[i] != nullptr) {
       return true;  // Found a core that still exists
@@ -37,9 +39,9 @@ bool SimScheduler::hasCores() const {
 }
 
 // Method to remove the scheduler
-bool SimScheduler::removeScheduler() {
+bool SimScheduler::RemoveScheduler() {
   if (schedulerAdded_) {
-    if (hasCores()) {
+    if (HasCores()) {
       return false;  // Cannot remove scheduler while cores are present
     }
 
@@ -56,10 +58,10 @@ bool SimScheduler::removeScheduler() {
 }
 
 // Method to check if the scheduler is added
-bool SimScheduler::isSchedulerAdded() const { return schedulerAdded_; }
+bool SimScheduler::IsSchedulerAdded() const { return schedulerAdded_; }
 
 // Method to add a core
-bool SimScheduler::addCore(Core* core) {
+bool SimScheduler::AddCore(Core* core) {
   if (core_count_ < 8) {  // Check if there's space for more cores
     cores_[core_count_] = core;
     core_count_++;
@@ -73,11 +75,11 @@ int SimScheduler::getNextCoreId() const {
                        // count
 }
 
-Core* SimScheduler::getCore(int id) const {
+Core* SimScheduler::GetCore(int id) const {
   return cores_[id];  // Return the core at the given index
 }
 
-bool SimScheduler::removeCore(int core_id) {
+bool SimScheduler::RemoveCore(int core_id) {
   if (core_id < 0 || core_id >= core_count_) {
     return false;  // Invalid core ID
   }

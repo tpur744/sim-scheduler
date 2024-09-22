@@ -11,7 +11,7 @@ class SimScheduler {
   bool schedulerAdded_;  // Flag to track if the scheduler is added
   Core* cores_[8];       // Fixed-size array for up to 8 cores
   int core_count_;
-  Task* taskListHead_;
+  Task* task_list_head_;
 
  public:
   // Constructor
@@ -21,28 +21,32 @@ class SimScheduler {
   ~SimScheduler();
 
   // Method to add the scheduler
-  void addScheduler();
+  void AddScheduler();
 
   // Method to remove the scheduler
-  bool removeScheduler();
+  bool RemoveScheduler();
 
   // Method to check if the scheduler is added
-  bool isSchedulerAdded() const;
+  bool IsSchedulerAdded() const;
 
   // Method to check if any cores are present
-  bool hasCores() const;  // Ensure this is declared as const
+  bool HasCores() const;  // Ensure this is declared as const
 
   int getNextCoreId() const;
 
-  bool addCore(Core* core);
+  bool AddCore(Core* core);
 
-  bool removeCore(int core_id);
+  bool RemoveCore(int core_id);
 
-  Core* getCore(int core_id) const;
+  Core* GetCore(int core_id) const;
 
-  bool addTask(int taskTime, int priority);
+  void addTask(int time, int priority);
 
-  void assignTaskToCore(Task* task);
+  void removeTask(int id);
+
+  Task* findTask(int id);
+
+  void clearTasks();
 };
 
 #endif  // SIMSCHEDULER_HPP
