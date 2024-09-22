@@ -22,8 +22,8 @@ class PriorityCore : public Core {
   // Constructor
   PriorityCore(int id);
 
-  // Override addTask for priority behavior
-  void addTask(int task_time, int priority) override;
+  // Override AddTask for priority behavior
+  void AddTask(int task_time, int priority) override;
 
   // Destructor to clear the task list
   ~PriorityCore();

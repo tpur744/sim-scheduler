@@ -2,28 +2,26 @@
 #define TASK_HPP
 
 class Task {
+ private:
+  int id_;        // Unique identifier for the task
+  int time_;      // Time required to complete the task
+  int priority_;  // Priority of the task
+  Task* next_;    // Pointer to the next task in the linked list
+
  public:
   // Constructor
-  Task(int time, int priority);
+  Task(int id, int time, int priority);
 
-  // Getters
+  // Getters and Setters
   int GetID() const;
   int GetTime() const;
   int GetPriority() const;
 
-  // Linked list management
-  void AddTask(Task*& head, int time, int priority);
-  void RemoveTask(Task*& head, int id);
-  Task* FindTask(Task* head, int id);
-  void ClearTasks(Task*& head);
+  Task* GetNext() const;     // Get next task in the list
+  void SetNext(Task* next);  // Set the next task
 
-  // Pointer to the next task in the list
-  Task* next;
-
- private:
-  int id_;        // Unique identifier for the task
-  int time_;      // Time to execute the task
-  int priority_;  // Priority of the task
+  // Destructor
+  ~Task();
 };
 
 #endif  // TASK_HPP

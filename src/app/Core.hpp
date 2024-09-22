@@ -11,7 +11,7 @@ class Core {
   Core(int id);
 
   // Pure virtual function for adding a task
-  virtual void addTask(int task_time, int priority) = 0;
+  virtual void AddTask(int task_time, int priority) = 0;
 
   // Get the total pending execution time
   int getPendingTime() const;

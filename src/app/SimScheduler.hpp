@@ -12,6 +12,7 @@ class SimScheduler {
   Core* cores_[8];       // Fixed-size array for up to 8 cores
   int core_count_;
   Task* task_list_head_;
+  int task_counter_;
 
  public:
   // Constructor
@@ -40,13 +41,13 @@ class SimScheduler {
 
   Core* GetCore(int core_id) const;
 
-  void addTask(int time, int priority);
+  int AddTask(int time, int priority);
 
-  void removeTask(int id);
+  void RemoveTask(int id);
 
-  Task* findTask(int id);
+  Task* FindTask(int id);
 
-  void clearTasks();
+  void ClearTasks();
 };
 
 #endif  // SIMSCHEDULER_HPP

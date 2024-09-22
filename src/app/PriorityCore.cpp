@@ -4,8 +4,8 @@
 // Constructor
 PriorityCore::PriorityCore(int id) : Core(id), head_(nullptr) {}
 
-// Override addTask for priority behavior
-void PriorityCore::addTask(int task_time, int priority) {
+// Override AddTask for priority behavior
+void PriorityCore::AddTask(int task_time, int priority) {
   TaskNode* newTask = new TaskNode(task_time, priority);
 
   // If the list is empty or the new task has higher priority than the head

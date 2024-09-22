@@ -8,7 +8,10 @@
 
 // Constructor
 SimScheduler::SimScheduler()
-    : schedulerAdded_(false), core_count_(0), task_list_head_(nullptr) {
+    : schedulerAdded_(false),
+      core_count_(0),
+      task_list_head_(nullptr),
+      task_counter_(0) {
   for (int i = 0; i < 8; ++i) {
     cores_[i] = nullptr;  // Initialize pointers to null
   }
@@ -91,4 +94,21 @@ bool SimScheduler::RemoveCore(int core_id) {
   }
 
   return false;  // Core was already removed
+}
+
+int SimScheduler::AddTask(int time, int priority) {
+  Task* newTask = new Task(task_counter_, time, priority);
+  task_counter_++;
+
+  if (task_list_head_ == nullptr) {
+    task_list_head_ = newTask;
+  } else {
+    Task* current = task_list_head_;
+    while (current->GetNext() != nullptr) {
+      current = current->GetNext();
+    }
+    current->SetNext(newTask);
+  }
+
+  return newTask->GetID();  // Return the ID of the newly added task
 }

@@ -5,7 +5,7 @@
 FIFOCore::FIFOCore(int id) : Core(id), head_(nullptr), tail_(nullptr) {}
 
 // Add a task to the end of the linked list (FIFO behavior)
-void FIFOCore::addTask(int task_time, int priority) {
+void FIFOCore::AddTask(int task_time, int priority) {
   TaskNode* newTask = new TaskNode(task_time, priority);
 
   if (!head_) {

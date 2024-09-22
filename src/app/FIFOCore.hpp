@@ -23,8 +23,8 @@ class FIFOCore : public Core {
   // Constructor
   FIFOCore(int id);
 
-  // Override addTask for FIFO behavior
-  void addTask(int task_time, int priority) override;
+  // Override AddTask for FIFO behavior
+  void AddTask(int task_time, int priority) override;
 
   // Destructor to clear the task list
   ~FIFOCore();
