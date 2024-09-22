@@ -150,3 +150,42 @@ void SimScheduler::AssignTasks() {
     currentTask = currentTask->GetNext();
   }
 }
+
+void SimScheduler::TickTock(int numTicks) {
+  for (int i = 0; i < numTicks; ++i) {
+    Task* currentTask = task_list_head_;
+    Task* previousTask = nullptr;
+
+    while (currentTask) {
+      if (currentTask->IsAssigned()) {
+        currentTask->DecrementTime();  // Decrement task time
+
+        // Add any additional logic for executing the task
+      } else {
+        // Increment waiting time if the task is not executed
+        currentTask->IncrementWaitingTime();
+      }
+
+      // Check if the task is complete
+      if (currentTask->GetTime() <= 0) {
+        std::cout << "Removed task " << currentTask->GetID()
+                  << " which executed after waiting "
+                  << " after waiting " << currentTask->GetWaitingTime() << "."
+                  << std::endl;
+
+        // Remove the completed task
+        if (previousTask) {
+          previousTask->SetNext(currentTask->GetNext());
+        } else {
+          task_list_head_ = currentTask->GetNext();
+        }
+        delete currentTask;  // Free memory
+        currentTask = previousTask ? previousTask->GetNext() : task_list_head_;
+        continue;  // Skip to the next iteration
+      }
+
+      previousTask = currentTask;  // Move to the next task
+      currentTask = currentTask->GetNext();
+    }
+  }
+}

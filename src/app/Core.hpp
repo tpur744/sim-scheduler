@@ -31,6 +31,10 @@ class Core {
   void CompleteTask();
 
   int GetID() const;
+
+  Task* GetCurrentTask() const;
+
+  void IncrementCompletedTaskCount();
 };
 
 #endif

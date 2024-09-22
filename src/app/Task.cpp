@@ -1,8 +1,14 @@
 #include "Task.hpp"
 
 // Constructor
+// Constructor
 Task::Task(int id, int time, int priority)
-    : id_(id), time_(time), priority_(priority), next_(nullptr) {}
+    : id_(id),
+      time_(time),
+      priority_(priority),
+      next_(nullptr),
+      waiting_time_(0),
+      assigned_(false) {}  // Initialize assigned_
 
 // Getters
 int Task::GetID() const { return id_; }
@@ -16,5 +22,14 @@ void Task::SetNext(Task* next) { next_ = next; }
 bool Task::IsAssigned() const { return assigned_; }
 
 void Task::MarkAsAssigned() { assigned_ = true; }
+
+void Task::DecrementTime() {
+  if (time_ > 0) {
+    time_--;
+  }
+}
+
+int Task::GetWaitingTime() const { return waiting_time_; }
+void Task::IncrementWaitingTime() { waiting_time_++; }
 
 Task::~Task() {}

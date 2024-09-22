@@ -18,7 +18,8 @@
 
 class App {
  private:
-  SimScheduler simScheduler;
+  SimScheduler sim_scheduler_;
+  int current_time_;
 
  public:
   App(void);

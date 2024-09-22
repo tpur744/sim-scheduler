@@ -3,10 +3,11 @@
 
 class Task {
  private:
-  int id_;        // Unique identifier for the task
-  int time_;      // Time required to complete the task
-  int priority_;  // Priority of the task
-  Task* next_;    // Pointer to the next task in the linked list
+  int id_;            // Unique identifier for the task
+  int time_;          // Time required to complete the task
+  int priority_;      // Priority of the task
+  Task* next_;        // Pointer to the next task in the linked list
+  int waiting_time_;  // Time waited before execution
 
  public:
   // Constructor
@@ -18,6 +19,10 @@ class Task {
   int GetPriority() const;
   bool IsAssigned() const;
   void MarkAsAssigned();
+  void DecrementTime();
+  int GetWaitingTime() const;
+  int GetExecutedTime() const;
+  void IncrementWaitingTime();
 
   Task* GetNext() const;     // Get next task in the list
   void SetNext(Task* next);  // Set the next task

@@ -50,6 +50,8 @@ class SimScheduler {
   void ClearTasks();
 
   void AssignTasks();
+
+  void TickTock(int numTicks);
 };
 
 #endif  // SIMSCHEDULER_HPP

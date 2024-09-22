@@ -1,5 +1,6 @@
 #include "Core.hpp"
 
+#include "Task.hpp"
 // Constructor to initialize ID and pending time
 Core::Core(int id)
     : id_(id),
@@ -30,3 +31,5 @@ Core::~Core() {}
 
 // Get the ID of the core
 int Core::GetID() const { return id_; }
+
+void Core::IncrementCompletedTaskCount() { completed_task_count_++; }
