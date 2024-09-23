@@ -200,4 +200,54 @@ Task* SimScheduler::GetTask(int task_id) const {
   return nullptr;  // Task not found
 }
 
-bool SimScheduler::RemoveTask(int id) { return true; }
+Task* SimScheduler::GetTaskAtFront() {
+  return task_list_head_;  // Return the task at the front of the list
+}
+
+/*bool SimScheduler::IsTaskExecuting(int id) const {
+  for (const auto& core : cores_) {  // Assuming cores_ is your list of cores
+    Task* frontTask =
+        core->GetTaskAtFront();  // Assume each core has this method
+    if (frontTask != nullptr && frontTask->GetID() == id) {
+      return true;  // The task is currently executing
+    }
+  }
+  return false;  // The task is not executing on any core
+}
+*/
+void SimScheduler::RemoveTask(int id) {
+  Task* current = task_list_head_;
+  Task* previous = nullptr;
+
+  // Traverse the list to find the task with the given ID
+  while (current) {
+    if (current->GetID() == id) {
+      // Remove the task from the linked list
+      if (previous) {
+        previous->SetNext(current->GetNext());  // Bypass the current task
+      } else {
+        task_list_head_ = current->GetNext();  // Remove the head
+      }
+
+      // Get waiting time before deletion for output
+      int waiting_time = current->GetWaitingTime();
+      bool was_executed = current->GetExecutedTime() > 0;
+
+      // Delete the task and free memory
+      delete current;
+
+      // Output the removal message
+      std::cout << "Removed task " << id << " which "
+                << (was_executed ? "was" : "wasn't")
+                << " executed after waiting " << waiting_time << " units."
+                << std::endl;
+      return;  // Exit after removal
+    }
+
+    previous = current;
+    current = current->GetNext();  // Move to the next task
+  }
+
+  // If the task wasn't found
+  std::cout << "No task with ID " << id << " found." << std::endl;
+}

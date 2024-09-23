@@ -141,7 +141,40 @@ void App::AddTask(const std::string &task_time, const std::string &priority) {
   sim_scheduler_.AssignTasks();
 }
 
-void App::RemoveTask(const std::string &task_id) {}
+void App::RemoveTask(const std::string &task_id) {
+  if (!sim_scheduler_.IsSchedulerAdded()) {
+    std::cout << "Cannot perform that operation without a scheduler."
+              << std::endl;
+    return;
+  }
+
+  if (!sim_scheduler_.HasCores()) {
+    std::cout << "Cannot perform that operation without a core." << std::endl;
+    return;
+  }
+
+  int id = std::stoi(task_id);
+  Task *task = sim_scheduler_.GetTask(id);
+  if (task == nullptr) {
+    std::cout << "No task with ID " << task_id << "." << std::endl;
+    return;
+  }
+
+  // Check if the task is the one currently being executed (front of the list)
+  /*Task *frontTask =
+      sim_scheduler_.GetTaskAtFront();  // You may need to implement this method
+  if (frontTask != nullptr && frontTask->GetID() == id) {
+    std::cout << "Task " << task_id << " is currently being executed."
+              << std::endl;
+    return;
+  } */
+
+  int waiting_time = task->GetWaitingTime();
+  std::string executed_status = task->GetExecutedTime() > 0 ? "was" : "wasn't";
+
+  // Now remove the task
+  sim_scheduler_.RemoveTask(id);
+}
 
 void App::ShowCore(const std::string &excore_id) const {
   if (!sim_scheduler_.IsSchedulerAdded()) {

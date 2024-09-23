@@ -51,7 +51,11 @@ class SimScheduler {
 
   Task* GetTask(int task_id) const;
 
-  bool RemoveTask(int id);
+  void RemoveTask(int task_id);
+
+  Task* GetTaskAtFront();
+
+  bool IsTaskExecuting(int id) const;
 };
 
 #endif  // SIMSCHEDULER_HPP
