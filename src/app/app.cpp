@@ -199,9 +199,16 @@ void App::ShowTask(const std::string &task_id) const {
     return;
   }
 
+  int elapsed_time =
+      current_time_ - task->GetExecutedTime();  // Adjust if needed
+  int pending_execution_time = task->GetTime() - elapsed_time;
+  if (pending_execution_time < 0) {
+    pending_execution_time = 0;  // Ensure it doesn't go negative
+  }
+
   // Output task details
   std::cout << "Task " << task->GetID() << ", time arrival "
             << task->GetArrivalTime() << ", task time " << task->GetTime()
-            << ", pending execution time " << task->GetExecutedTime()
+            << ", pending execution time " << pending_execution_time
             << ", priority " << task->GetPriority() << "." << std::endl;
 }
