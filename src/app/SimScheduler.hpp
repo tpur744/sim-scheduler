@@ -33,7 +33,7 @@ class SimScheduler {
   // Method to check if any cores are present
   bool HasCores() const;  // Ensure this is declared as const
 
-  int getNextCoreId() const;
+  int GetNextCoreID() const;
 
   bool AddCore(Core* core);
 
@@ -41,17 +41,17 @@ class SimScheduler {
 
   Core* GetCore(int core_id) const;
 
-  int AddTask(int time, int priority);
-
-  void RemoveTask(int id);
-
-  Task* FindTask(int id);
+  int AddTask(int time, int priority, int arrival_time);
 
   void ClearTasks();
 
   void AssignTasks();
 
   void TickTock(int numTicks);
+
+  Task* GetTask(int task_id);
+
+  bool RemoveTask(int id);
 };
 
 #endif  // SIMSCHEDULER_HPP

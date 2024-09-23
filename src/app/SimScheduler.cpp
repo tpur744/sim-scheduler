@@ -74,7 +74,7 @@ bool SimScheduler::AddCore(Core* core) {
   return false;  // Indicate failure to add core
 }
 
-int SimScheduler::getNextCoreId() const {
+int SimScheduler::GetNextCoreID() const {
   return core_count_;  // Returns the next available ID based on the current
                        // count
 }
@@ -97,8 +97,8 @@ bool SimScheduler::RemoveCore(int core_id) {
   return false;  // Core was already removed
 }
 
-int SimScheduler::AddTask(int time, int priority) {
-  Task* newTask = new Task(task_counter_, time, priority);
+int SimScheduler::AddTask(int time, int priority, int arrival_time) {
+  Task* newTask = new Task(task_counter_, time, priority, arrival_time);
   task_counter_++;
 
   if (task_list_head_ == nullptr) {
@@ -170,8 +170,7 @@ void SimScheduler::TickTock(int numTicks) {
       if (currentTask->GetTime() <= 0) {
         std::cout << "Removed task " << currentTask->GetID()
                   << " which executed after waiting "
-                  << " after waiting " << currentTask->GetWaitingTime() << "."
-                  << std::endl;
+                  << currentTask->GetWaitingTime() << "." << std::endl;
 
         // Remove the completed task
         if (previousTask) {
@@ -189,3 +188,16 @@ void SimScheduler::TickTock(int numTicks) {
     }
   }
 }
+
+Task* SimScheduler::GetTask(int task_id) {
+  Task* currentTask = task_list_head_;
+  while (currentTask) {
+    if (currentTask->GetID() == task_id) {
+      return currentTask;  // Return the task if found
+    }
+    currentTask = currentTask->GetNext();
+  }
+  return nullptr;  // Task not found
+}
+
+bool SimScheduler::RemoveTask(int id) {}
