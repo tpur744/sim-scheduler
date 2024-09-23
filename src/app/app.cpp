@@ -177,4 +177,31 @@ void App::ShowCore(const std::string &excore_id) const {
             << core->GetCompletedTaskCount() << " task(s)." << std::endl;
 }
 
-void App::ShowTask(const std::string &task_id) const {}
+void App::ShowTask(const std::string &task_id) const {
+  if (!sim_scheduler_.IsSchedulerAdded()) {
+    std::cout << "Cannot perform that operation without a scheduler."
+              << std::endl;
+    return;
+  }
+
+  if (!sim_scheduler_.HasCores()) {
+    std::cout << "Cannot perform that operation without a core." << std::endl;
+    return;
+  }
+
+  // Convert task_id to integer
+  int id = std::stoi(task_id);
+
+  // Retrieve the task from the SimScheduler
+  Task *task = sim_scheduler_.GetTask(id);
+  if (task == nullptr) {
+    std::cout << "No task with ID " << task_id << "." << std::endl;
+    return;
+  }
+
+  // Output task details
+  std::cout << "Task " << task->GetID() << ", time arrival "
+            << task->GetArrivalTime() << ", task time " << task->GetTime()
+            << ", pending execution time " << task->GetExecutedTime()
+            << ", priority " << task->GetPriority() << "." << std::endl;
+}

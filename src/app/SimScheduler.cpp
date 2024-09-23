@@ -189,7 +189,7 @@ void SimScheduler::TickTock(int numTicks) {
   }
 }
 
-Task* SimScheduler::GetTask(int task_id) {
+Task* SimScheduler::GetTask(int task_id) const {
   Task* currentTask = task_list_head_;
   while (currentTask) {
     if (currentTask->GetID() == task_id) {
@@ -200,4 +200,4 @@ Task* SimScheduler::GetTask(int task_id) {
   return nullptr;  // Task not found
 }
 
-bool SimScheduler::RemoveTask(int id) {}
+bool SimScheduler::RemoveTask(int id) { return true; }
