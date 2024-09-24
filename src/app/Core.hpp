@@ -17,7 +17,7 @@ class Core {
   virtual CoreType GetCoreType() const = 0;
 
   // Pure virtual function for adding a task
-  virtual void AddTask(int task_time, int priority) = 0;
+  virtual void AddTask(Task* task) = 0;
 
   virtual void AssignTask(Task* task) = 0;
 

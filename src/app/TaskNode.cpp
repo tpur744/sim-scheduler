@@ -1,11 +1,5 @@
-#include "TaskNode.h"
+#include "TaskNode.hpp"
 
-TaskNode::TaskNode()
-{
+TaskNode::TaskNode() {}
 
-}
-
-TaskNode::~TaskNode()
-{
-
-}
+TaskNode::~TaskNode() {}

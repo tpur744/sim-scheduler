@@ -4,21 +4,23 @@
 #include <string>
 
 #include "Core.hpp"
+
 // Constructor
 PriorityCore::PriorityCore(int id) : Core(id), head_(nullptr) {}
 
 // Override AddTask for priority behavior
-void PriorityCore::AddTask(int task_time, int priority) {
-  TaskNode* newTask = new TaskNode(task_time, priority);
+void PriorityCore::AddTask(Task* task) {
+  TaskNode* newTask = new TaskNode(task);  // Use the pointer to Task
 
   // If the list is empty or the new task has higher priority than the head
-  if (!head_ || priority < head_->priority_) {
+  if (!head_ || task->GetPriority() < head_->task_->GetPriority()) {
     newTask->next_ = head_;
     head_ = newTask;
   } else {
     // Find the correct position to insert the new task
     TaskNode* current = head_;
-    while (current->next_ && current->next_->priority_ <= priority) {
+    while (current->next_ &&
+           current->next_->task_->GetPriority() <= task->GetPriority()) {
       current = current->next_;
     }
     newTask->next_ = current->next_;
@@ -26,14 +28,14 @@ void PriorityCore::AddTask(int task_time, int priority) {
   }
 
   // Increase the pending time
-  pending_time_ += task_time;
+  pending_time_ += task->GetTime();
 }
 
 void PriorityCore::AssignTask(Task* task) {
   if (!task->IsAssigned()) {  // Check if the task is already assigned
-    AddTask(task->GetTime(), task->GetPriority());  // Add the task
-    assigned_task_count_++;  // Increment assigned task count
-    task->MarkAsAssigned();  // Mark the task as assigned
+    AddTask(task);            // Add the task
+    assigned_task_count_++;   // Increment assigned task count
+    task->MarkAsAssigned();   // Mark the task as assigned
   }
 }
 
@@ -42,7 +44,7 @@ PriorityCore::~PriorityCore() {
   TaskNode* current = head_;
   while (current) {
     TaskNode* next = current->next_;
-    delete current;
-    current = next;
+    delete current;  // Clean up the current node
+    current = next;  // Move to the next node
   }
 }

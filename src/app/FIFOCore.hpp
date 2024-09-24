@@ -8,13 +8,15 @@ class FIFOCore : public Core {
  private:
   TaskNode* head_;  // Pointer to the head of the task list
   TaskNode* tail_;  // Pointer to the tail of the task list
+  int pending_time_;
+  int assigned_task_count_;
 
  public:
   // Constructor
   FIFOCore(int id);
 
   // Override AddTask for FIFO behavior
-  void AddTask(int task_time, int priority) override;
+  void AddTask(Task* task) override;
 
   void AssignTask(Task* task) override;
 
