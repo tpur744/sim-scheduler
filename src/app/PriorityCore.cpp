@@ -6,7 +6,7 @@
 #include "Core.hpp"
 
 // Constructor
-PriorityCore::PriorityCore(int id) : Core(id), head_(nullptr) {}
+PriorityCore::PriorityCore(int id) : Core(id) {}
 
 // Override AddTask for priority behavior
 void PriorityCore::AddTask(Task* task) {
@@ -29,7 +29,7 @@ void PriorityCore::AddTask(Task* task) {
 
   // Increase the pending time
   pending_time_ += task->GetTime();
-  // assigned_task_count_++;  // Increment assigned task count
+  assigned_task_count_++;
 }
 
 void PriorityCore::AssignTask(Task* task) {

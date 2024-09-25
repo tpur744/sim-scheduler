@@ -1,7 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
 #include "Task.hpp"
-
+#include "TaskNode.hpp"
 enum CoreType { FIFO, PRIORITY };
 class Core {
  protected:
@@ -9,6 +9,7 @@ class Core {
   int pending_time_;
   int assigned_task_count_;
   int completed_task_count_;
+  TaskNode* head_;  // Pointer to the head of the task list
 
  public:
   // Constructor to initialize the Core with an ID
@@ -35,6 +36,11 @@ class Core {
   Task* GetCurrentTask() const;
 
   void IncrementCompletedTaskCount();
+
+  void TickForward();
+
+  void RemoveTask(int id);
+  Task* GetTask(int id);
 };
 
 #endif

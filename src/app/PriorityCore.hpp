@@ -6,8 +6,6 @@
 
 class PriorityCore : public Core {
  private:
-  TaskNode* head_;  // Pointer to the head of the task list
-
  public:
   // Constructor
   PriorityCore(int id);

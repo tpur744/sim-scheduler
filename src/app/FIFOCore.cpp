@@ -4,9 +4,10 @@
 #include <string>
 
 #include "Core.hpp"
+#include "message.hpp"
 
 // Constructor
-FIFOCore::FIFOCore(int id) : Core(id), head_(nullptr), tail_(nullptr) {}
+FIFOCore::FIFOCore(int id) : Core(id), tail_(nullptr) {}
 
 // Add a task to the end of the linked list (FIFO behavior)
 void FIFOCore::AddTask(Task* task) {
@@ -25,8 +26,13 @@ void FIFOCore::AddTask(Task* task) {
 
   // Increase the pending time
   pending_time_ += task->GetTime();
+  assigned_task_count_++;
+  std::cout << "Added task with ID " << task->GetID() << ", task time of "
+            << task->GetTime() << ", and priority of " << task->GetPriority()
+            << "." << std::endl;
 }
 
+// REMOVE THIS CODE AT SOME POINT
 void FIFOCore::AssignTask(Task* task) {
   if (!task->IsAssigned()) {  // Check if the task is already assigned
     AddTask(task);            // Increment assigned task count
@@ -34,6 +40,7 @@ void FIFOCore::AssignTask(Task* task) {
     assigned_task_count_++;
   }
 }
+// END REMOVE
 
 // Destructor to free memory
 FIFOCore::~FIFOCore() {

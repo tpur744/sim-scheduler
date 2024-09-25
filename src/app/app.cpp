@@ -127,18 +127,22 @@ void App::AddTask(const std::string &task_time, const std::string &priority) {
     std::cout << "Invalid time or priority." << std::endl;
     return;
   }
+  // REMOVE THIS CODE AT SOME POINT
+  // int time = std::stoi(task_time);
+  // int prio = std::stoi(priority);
 
-  int time = std::stoi(task_time);
-  int prio = std::stoi(priority);
+  // // Add the task and retrieve its ID
+  // int task_id = sim_scheduler_.AddTask(time, prio, current_time_);
 
-  // Add the task and retrieve its ID
-  int task_id = sim_scheduler_.AddTask(time, prio, current_time_);
+  // std::cout << "Added task with ID " << task_id << ", task time of " << time
+  //           << ", and priority of " << prio << "." << std::endl;
 
-  std::cout << "Added task with ID " << task_id << ", task time of " << time
-            << ", and priority of " << prio << "." << std::endl;
+  // // Now assign the tasks to available cores
+  // sim_scheduler_.AssignTasks();
+  // END REMOVE
 
-  // Now assign the tasks to available cores
-  sim_scheduler_.AssignTasks();
+  sim_scheduler_.AddTaskToCore(std::stoi(task_time), std::stoi(priority),
+                               current_time_);
 }
 
 void App::RemoveTask(const std::string &task_id) {
@@ -154,11 +158,6 @@ void App::RemoveTask(const std::string &task_id) {
   }
 
   int id = std::stoi(task_id);
-  Task *task = sim_scheduler_.GetTask(id);
-  if (task == nullptr) {
-    std::cout << "No task with ID " << task_id << "." << std::endl;
-    return;
-  }
 
   // Check if the task is the one currently being executed (front of the list)
   /*Task *frontTask =
@@ -168,10 +167,6 @@ void App::RemoveTask(const std::string &task_id) {
               << std::endl;
     return;
   } */
-
-  int waiting_time = task->GetWaitingTime();
-  std::string executed_status = task->GetExecutedTime() > 0 ? "was" : "wasn't";
-
   // Now remove the task
   sim_scheduler_.RemoveTask(id);
 }
@@ -225,24 +220,25 @@ void App::ShowTask(const std::string &task_id) const {
 
   // Convert task_id to integer
   int id = std::stoi(task_id);
+  sim_scheduler_.ShowTask(id);
 
-  // Retrieve the task from the SimScheduler
-  Task *task = sim_scheduler_.GetTask(id);
-  if (task == nullptr) {
-    std::cout << "No task with ID " << task_id << "." << std::endl;
-    return;
-  }
+  // // Retrieve the task from the SimScheduler
+  // Task *task = sim_scheduler_.GetTask(id);
+  // if (task == nullptr) {
+  //   std::cout << "No task with ID " << task_id << "." << std::endl;
+  //   return;
+  // }
 
-  int elapsed_time =
-      current_time_ - task->GetExecutedTime();  // Adjust if needed
-  int pending_execution_time = task->GetTime() - elapsed_time;
-  if (pending_execution_time < 0) {
-    pending_execution_time = 0;  // Ensure it doesn't go negative
-  }
+  // int elapsed_time =
+  //     current_time_ - task->GetExecutedTime();  // Adjust if needed
+  // int pending_execution_time = task->GetTime() - elapsed_time;
+  // if (pending_execution_time < 0) {
+  //   pending_execution_time = 0;  // Ensure it doesn't go negative
+  // }
 
-  // Output task details
-  std::cout << "Task " << task->GetID() << ", time arrival "
-            << task->GetArrivalTime() << ", task time " << task->GetTime()
-            << ", pending execution time " << pending_execution_time
-            << ", priority " << task->GetPriority() << "." << std::endl;
+  // // Output task details
+  // std::cout << "Task " << task->GetID() << ", time arrival "
+  //           << task->GetArrivalTime() << ", task time " << task->GetTime()
+  //           << ", pending execution time " << pending_execution_time
+  //           << ", priority " << task->GetPriority() << "." << std::endl;
 }

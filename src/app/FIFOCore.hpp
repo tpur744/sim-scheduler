@@ -6,7 +6,6 @@
 
 class FIFOCore : public Core {
  private:
-  TaskNode* head_;  // Pointer to the head of the task list
   TaskNode* tail_;  // Pointer to the tail of the task list
 
  public:

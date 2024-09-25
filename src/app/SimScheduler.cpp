@@ -97,7 +97,7 @@ bool SimScheduler::RemoveCore(int core_id) {
 
   return false;  // Core was already removed
 }
-
+// REMOVE THIS CODE
 int SimScheduler::AddTask(int time, int priority, int arrival_time) {
   // Create a new Task object
   Task* new_task = new Task(task_counter_, time, priority, arrival_time);
@@ -119,7 +119,9 @@ int SimScheduler::AddTask(int time, int priority, int arrival_time) {
 
   return new_task->GetID();  // Return the ID of the newly added task
 }
+// END REMOVE
 
+// REMOVE THIS FUNCTION
 void SimScheduler::AssignTasks() {
   TaskNode* current_node = task_list_head_;
 
@@ -156,49 +158,15 @@ void SimScheduler::AssignTasks() {
     current_node = current_node->next_;
   }
 }
+// END REMOVE
 
 void SimScheduler::TickTock(int num_ticks) {
-  for (int i = 0; i < num_ticks; ++i) {
-    TaskNode* current_node = task_list_head_;
-    TaskNode* previous_node = nullptr;
-
-    while (current_node) {
-      Task* current_task =
-          current_node->task_;  // Get the task from the current TaskNode
-
-      if (current_task->IsAssigned()) {
-        current_task->DecrementTime();  // Decrement task time
-
-        // Add any additional logic for executing the task
-      } else {
-        // Increment waiting time if the task is not executed
-        current_task->IncrementWaitingTime();
-      }
-
-      // Check if the task is complete
-      if (current_task->GetTime() <= 0) {
-        std::cout << "Removed task " << current_task->GetID()
-                  << " which executed after waiting "
-                  << current_task->GetWaitingTime() << "." << std::endl;
-
-        // Remove the completed task
-        if (previous_node) {
-          previous_node->next_ =
-              current_node->next_;  // Bypass the current task
-        } else {
-          task_list_head_ = current_node->next_;  // Remove the head
-        }
-
-        // Free memory
-        delete current_task;  // Free the task
-        delete current_node;  // Free the TaskNode
-
-        current_node = previous_node ? previous_node->next_ : task_list_head_;
-        continue;  // Skip to the next iteration
-      }
-
-      previous_node = current_node;        // Move to the next task node
-      current_node = current_node->next_;  // Move to the next TaskNode
+  // go through the number of ticks
+  // loop through the cores
+  // run the core tick forward function
+  for (int i = 0; i < num_ticks; i++) {
+    for (int j = 0; j < core_count_; j++) {
+      cores_[j]->TickForward();
     }
   }
 }
@@ -214,43 +182,51 @@ Task* SimScheduler::GetTask(int task_id) const {
   return nullptr;  // Task not found
 }
 
-Task* SimScheduler::GetTaskAtFront() {
-  return task_list_head_ ? task_list_head_->task_
-                         : nullptr;  // Return the task at the front of the
-                                     // list, or nullptr if empty
+void SimScheduler::RemoveTask(int id) {
+  for (int i = 0; i < core_count_; i++) {
+    cores_[i]->RemoveTask(id);
+  }
 }
 
-void SimScheduler::RemoveTask(int id) {
-  TaskNode* current_node = task_list_head_;
-  TaskNode* previous_node = nullptr;
+void SimScheduler::AddTaskToCore(int task_time, int priority,
+                                 int arrival_time) {
+  // Find the core with the lowest execution time
+  Core* best_core = nullptr;
+  int lowest_pending_time = INT_MAX;
 
-  // Traverse the list to find the task with the given ID
-  while (current_node) {
-    if (current_node->task_->GetID() == id) {
-      // Remove the task from the linked list
-      if (previous_node) {
-        previous_node->next_ = current_node->next_;  // Bypass the current task
-      } else {
-        task_list_head_ = current_node->next_;  // Remove the head
+  for (int i = 0; i < core_count_; ++i) {
+    Core* core = cores_[i];
+    if (core) {
+      int pending_time = core->getPendingTime();
+      if (pending_time < lowest_pending_time) {
+        lowest_pending_time = pending_time;
+        best_core = core;
+      } else if (pending_time == lowest_pending_time) {
+        if (best_core == nullptr || core->GetID() < best_core->GetID()) {
+          best_core = core;
+        }
       }
-
-      // Get waiting time before deletion for output
-      int waiting_time = current_node->task_->GetWaitingTime();
-      bool was_executed = current_node->task_->GetExecutedTime() > 0;
-
-      // Free memory
-      delete current_node->task_;  // Free the task
-      delete current_node;         // Free the TaskNode
-
-      // Output status
-      std::cout << "Removed task " << id
-                << (was_executed ? " which executed" : " which did not execute")
-                << " after waiting " << waiting_time << "." << std::endl;
-
-      return;  // Exit the method after removal
     }
-
-    previous_node = current_node;  // Move to the next node
-    current_node = current_node->next_;
   }
+  best_core->AddTask(
+      new Task(task_counter_, task_time, priority, arrival_time));
+  task_counter_++;
+}
+
+void SimScheduler::ShowTask(int task_id) const {
+  // Go through each of the cores and find the task with the given ID
+  for (int i = 0; i < core_count_; i++) {
+    Task* task = cores_[i]->GetTask(task_id);
+    if (task) {
+      std::cout << "Task ID: " << task->GetID() << std::endl;
+      std::cout << "Time: " << task->GetTime() << std::endl;
+      std::cout << "Priority: " << task->GetPriority() << std::endl;
+      std::cout << "Arrival Time: " << task->GetArrivalTime() << std::endl;
+      std::cout << "Waiting Time: " << task->GetWaitingTime() << std::endl;
+      std::cout << "Executed Time: " << task->GetExecutedTime() << std::endl;
+      return;
+    }
+  }
+
+  std::cout << "No task with ID " << task_id << "." << std::endl;
 }

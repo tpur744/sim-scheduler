@@ -53,9 +53,10 @@ class SimScheduler {
 
   void RemoveTask(int task_id);
 
-  Task* GetTaskAtFront();
-
   bool IsTaskExecuting(int id) const;
+  void AddTaskToCore(int task_time, int priority, int arrival_time);
+
+  void ShowTask(int task_id) const;
 };
 
 #endif  // SIMSCHEDULER_HPP
