@@ -74,6 +74,13 @@ void Core::TickForward() {
 }
 
 void Core::RemoveTask(int id, bool print_output) {
+  // Check if the task is the head (currently being executed)
+  if (head_ && head_->task_->GetID() == id) {
+    std::cout << "Cannot remove task " << id
+              << " as it is currently being executed." << std::endl;
+    return;  // Return immediately to avoid further checks or output
+  }
+
   TaskNode* current_node = head_;
   TaskNode* previous_node = nullptr;
 
@@ -99,7 +106,7 @@ void Core::RemoveTask(int id, bool print_output) {
       if (print_output) {
         std::cout << "Removed task " << id
                   << (was_executed ? " which was executed"
-                                   : " which was not execute")
+                                   : " which was not executed")
                   << " after waiting " << waiting_time << "." << std::endl;
       }
       return;
@@ -109,7 +116,10 @@ void Core::RemoveTask(int id, bool print_output) {
     current_node = current_node->next_;  // Move to the next TaskNode
   }
 
-  std::cout << "No task with ID " << id << " found." << std::endl;
+  // Output message only if task not found and it's not currently executing
+  if (print_output) {
+    std::cout << "No task with ID " << id << " found." << std::endl;
+  }
 }
 
 Task* Core::GetTask(int id) {
