@@ -7,8 +7,8 @@ class Core {
  protected:
   int id_;
   int pending_time_;
-  int assigned_task_count_;  // Track assigned tasks
-  int completed_task_count;
+  int assigned_task_count_;
+  int completed_task_count_;
 
  public:
   // Constructor to initialize the Core with an ID

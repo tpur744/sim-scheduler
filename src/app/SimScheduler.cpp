@@ -70,7 +70,6 @@ bool SimScheduler::AddCore(Core* core) {
   if (core_count_ < 8) {  // Check if there's space for more cores
     cores_[core_count_] = core;
     core_count_++;
-    std::cout << "adding core to address " << core << std::endl;
     return true;  // Indicate successful addition
   }
   return false;  // Indicate failure to add core
@@ -82,7 +81,6 @@ int SimScheduler::GetNextCoreID() const {
 }
 
 Core* SimScheduler::GetCore(int id) const {
-  std::cout << "returning core at address " << cores_[id] << std::endl;
   return cores_[id];  // Return the core at the given index
 }
 
@@ -153,8 +151,6 @@ void SimScheduler::AssignTasks() {
     if (best_core) {
       best_core->AssignTask(current_node->task_);  // Use task_ from TaskNode
     }
-    std::cout << "Assigning task to core " << best_core->GetID() << std::endl;
-    std::cout << "pending time: " << best_core->getPendingTime() << std::endl;
 
     // Move to the next TaskNode in the list
     current_node = current_node->next_;

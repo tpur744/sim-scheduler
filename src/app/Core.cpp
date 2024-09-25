@@ -23,12 +23,7 @@ void Core::CompleteTask() {
 }
 
 // Get the count of assigned tasks
-int Core::GetAssignedTaskCount() const {
-  std::cout << "returning assigned task count: " << assigned_task_count_
-            << std::endl;
-
-  return assigned_task_count_;
-}
+int Core::GetAssignedTaskCount() const { return assigned_task_count_; }
 
 // Get the count of completed tasks
 int Core::GetCompletedTaskCount() const { return completed_task_count_; }

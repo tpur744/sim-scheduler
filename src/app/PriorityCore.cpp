@@ -37,8 +37,6 @@ void PriorityCore::AssignTask(Task* task) {
     AddTask(task);            // Increment assigned task count
     task->MarkAsAssigned();   // Mark the task as assigned
     assigned_task_count_++;
-    std::cout << "assigned task count: " << assigned_task_count_ << std::endl;
-    std::cout << "Assigning task to Priority core" << std::endl;
   }
 }
 

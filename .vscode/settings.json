@@ -93,4 +93,5 @@
   "editor.insertSpaces": true,
   "editor.formatOnSave": true,
   "C_Cpp.clang_format_fallbackStyle": "Google",
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
 }
