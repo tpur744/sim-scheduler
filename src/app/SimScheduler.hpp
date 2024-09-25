@@ -8,10 +8,10 @@
 
 class SimScheduler {
  private:
-  bool schedulerAdded_;  // Flag to track if the scheduler is added
-  Core* cores_[8];       // Fixed-size array for up to 8 cores
+  bool scheduler_added_;  // Flag to track if the scheduler is added
+  Core* cores_[8];        // Fixed-size array for up to 8 cores
   int core_count_;
-  Task* task_list_head_;
+  TaskNode* task_list_head_;
   int task_counter_;
 
  public:

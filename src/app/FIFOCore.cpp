@@ -25,13 +25,16 @@ void FIFOCore::AddTask(Task* task) {
 
   // Increase the pending time
   pending_time_ += task->GetTime();
+  std::cout << "getting pending time: " << pending_time_ << std::endl;
 }
 
 void FIFOCore::AssignTask(Task* task) {
   if (!task->IsAssigned()) {  // Check if the task is already assigned
-    AddTask(task);            // Add the task using the new signature
-    assigned_task_count_++;   // Increment assigned task count
+    AddTask(task);            // Increment assigned task count
     task->MarkAsAssigned();   // Mark the task as assigned
+    assigned_task_count_++;
+    std::cout << "assigned task count: " << assigned_task_count_ << std::endl;
+    std::cout << "Assigning task to FIFO core" << std::endl;
   }
 }
 

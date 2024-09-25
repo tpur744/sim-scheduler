@@ -200,6 +200,7 @@ void App::ShowCore(const std::string &excore_id) const {
   }
 
   Core *core = sim_scheduler_.GetCore(id);
+  std::cout << "getting core at address " << core << std::endl;
   if (core == nullptr) {
     std::cout << "No core with ID " << excore_id << "." << std::endl;
     return;
