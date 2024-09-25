@@ -30,6 +30,9 @@ void PriorityCore::AddTask(Task* task) {
   // Increase the pending time
   pending_time_ += task->GetTime();
   assigned_task_count_++;
+  std::cout << "Added task with ID " << task->GetID() << ", task time of "
+            << task->GetTime() << ", and priority of " << task->GetPriority()
+            << "." << std::endl;
 }
 
 void PriorityCore::AssignTask(Task* task) {

@@ -218,12 +218,10 @@ void SimScheduler::ShowTask(int task_id) const {
   for (int i = 0; i < core_count_; i++) {
     Task* task = cores_[i]->GetTask(task_id);
     if (task) {
-      std::cout << "Task ID: " << task->GetID() << std::endl;
-      std::cout << "Time: " << task->GetTime() << std::endl;
-      std::cout << "Priority: " << task->GetPriority() << std::endl;
-      std::cout << "Arrival Time: " << task->GetArrivalTime() << std::endl;
-      std::cout << "Waiting Time: " << task->GetWaitingTime() << std::endl;
-      std::cout << "Executed Time: " << task->GetExecutedTime() << std::endl;
+      std::cout << "Task " << task->GetID() << ", time arrival "
+                << task->GetArrivalTime() << ", task time " << task->GetTime()
+                << ", pending execution time " << task->GetExecutedTime()
+                << ", priority " << task->GetPriority() << "." << std::endl;
       return;
     }
   }

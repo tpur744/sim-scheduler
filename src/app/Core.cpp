@@ -56,7 +56,7 @@ void Core::TickForward() {
     if (current_task->GetTime() <= 0) {
       std::cout << "Task " << current_task->GetID()
                 << " completed after waiting " << current_task->GetWaitingTime()
-                << " ticks." << std::endl;
+                << "." << std::endl;
 
       // Remove the completed task
       RemoveTask(current_task->GetID(), false);
@@ -98,8 +98,8 @@ void Core::RemoveTask(int id, bool print_output) {
       // Output status if print_output is true
       if (print_output) {
         std::cout << "Removed task " << id
-                  << (was_executed ? " which executed"
-                                   : " which did not execute")
+                  << (was_executed ? " which was executed"
+                                   : " which was not execute")
                   << " after waiting " << waiting_time << "." << std::endl;
       }
       return;
