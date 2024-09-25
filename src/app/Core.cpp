@@ -12,7 +12,7 @@ Core::Core(int id)
       completed_task_count_(0) {}
 
 // Get the total pending time
-int Core::getPendingTime() const { return pending_time_; }
+int Core::GetPendingTime() const { return pending_time_; }
 
 // Increment completed tasks and decrement assigned tasks
 void Core::CompleteTask() {
@@ -45,28 +45,37 @@ void Core::IncrementCompletedTaskCount() { completed_task_count_++; }
 // time
 
 void Core::TickForward() {
-  TaskNode* current_task_nod = head_;
-  Task* current_task = current_task_nod->task_;
-  if (current_task) {
+  // Check if there is a task at the head (i.e., a task being executed)
+  if (head_) {
+    Task* current_task = head_->task_;
+
+    // Decrement the execution time for the current task
     current_task->DecrementTime();
-    if (current_task->GetExecutedTime() <= 0) {
-      std::cout << "Removed task " << current_task->GetID()
-                << " which executed after waiting "
-                << current_task->GetWaitingTime() << "." << std::endl;
-      RemoveTask(current_task->GetID());
+
+    // If the task is finished (execution time reaches 0)
+    if (current_task->GetTime() <= 0) {
+      std::cout << "Task " << current_task->GetID()
+                << " completed after waiting " << current_task->GetWaitingTime()
+                << " ticks." << std::endl;
+
+      // Remove the completed task
+      RemoveTask(current_task->GetID(), false);
     }
+  }
+
+  // For all other tasks in the queue, increment their waiting time
+  TaskNode* current_node =
+      head_ ? head_->next_ : nullptr;  // Start from the next task
+  while (current_node) {
+    current_node->task_
+        ->IncrementWaitingTime();  // Increase waiting time for queued tasks
+    current_node = current_node->next_;  // Move to the next task node
   }
 }
 
-void Core::RemoveTask(int id) {
+void Core::RemoveTask(int id, bool print_output) {
   TaskNode* current_node = head_;
   TaskNode* previous_node = nullptr;
-
-  if (head_ && head_->task_->GetID() == id) {
-    std::cout << "Cannot remove task " << id
-              << " as it is currently being executed." << std::endl;
-    return;
-  }
 
   // Traverse the list to find the task with the given ID
   while (current_node) {
@@ -86,10 +95,13 @@ void Core::RemoveTask(int id) {
       delete current_node->task_;  // Free the task
       delete current_node;         // Free the TaskNode
 
-      // Output status
-      std::cout << "Removed task " << id
-                << (was_executed ? " which executed" : " which did not execute")
-                << " after waiting " << waiting_time << "." << std::endl;
+      // Output status if print_output is true
+      if (print_output) {
+        std::cout << "Removed task " << id
+                  << (was_executed ? " which executed"
+                                   : " which did not execute")
+                  << " after waiting " << waiting_time << "." << std::endl;
+      }
       return;
     }
 

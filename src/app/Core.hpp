@@ -23,7 +23,7 @@ class Core {
   virtual void AssignTask(Task* task) = 0;
 
   // Get the total pending execution time
-  int getPendingTime() const;
+  int GetPendingTime() const;
 
   // Virtual destructor for safe deletion
   virtual ~Core();
@@ -39,7 +39,7 @@ class Core {
 
   void TickForward();
 
-  void RemoveTask(int id);
+  void RemoveTask(int id, bool printOutput = true);
 
   Task* GetTask(int id);
 };

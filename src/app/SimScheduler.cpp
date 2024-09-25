@@ -135,7 +135,7 @@ void SimScheduler::AssignTasks() {
       Core* core = cores_[i];
       if (core) {
         int pending_time =
-            core->getPendingTime();  // Get the pending time for this core
+            core->GetPendingTime();  // Get the pending time for this core
 
         // Check if this core is a better fit
         if (pending_time < lowest_pending_time) {
@@ -197,7 +197,7 @@ void SimScheduler::AddTaskToCore(int task_time, int priority,
   for (int i = 0; i < core_count_; ++i) {
     Core* core = cores_[i];
     if (core) {
-      int pending_time = core->getPendingTime();
+      int pending_time = core->GetPendingTime();
       if (pending_time < lowest_pending_time) {
         lowest_pending_time = pending_time;
         best_core = core;
