@@ -59,7 +59,7 @@ void Core::TickForward() {
                 << "." << std::endl;
 
       // Remove the completed task
-      RemoveTask(current_task->GetID(), false);
+      RemoveTask(current_task->GetID(), false, true);
     }
   }
 
@@ -73,9 +73,9 @@ void Core::TickForward() {
   }
 }
 
-void Core::RemoveTask(int id, bool print_output) {
+void Core::RemoveTask(int id, bool print_output, bool allow_removal) {
   // Check if the task is the head (currently being executed)
-  if (head_ && head_->task_->GetID() == id) {
+  if (!allow_removal && head_ && head_->task_->GetID() == id) {
     std::cout << "Cannot remove task " << id
               << " as it is currently being executed." << std::endl;
     return;  // Return immediately to avoid further checks or output
@@ -109,6 +109,7 @@ void Core::RemoveTask(int id, bool print_output) {
                                    : " which was not executed")
                   << " after waiting " << waiting_time << "." << std::endl;
       }
+
       return;
     }
 

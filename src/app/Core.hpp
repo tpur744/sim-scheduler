@@ -39,7 +39,7 @@ class Core {
 
   void TickForward();
 
-  void RemoveTask(int id, bool printOutput = true);
+  void RemoveTask(int id, bool print_output = true, bool allow_removal = false);
 
   Task* GetTask(int id);
 };
