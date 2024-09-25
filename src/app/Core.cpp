@@ -62,6 +62,12 @@ void Core::RemoveTask(int id) {
   TaskNode* current_node = head_;
   TaskNode* previous_node = nullptr;
 
+  if (head_ && head_->task_->GetID() == id) {
+    std::cout << "Cannot remove task " << id
+              << " as it is currently being executed." << std::endl;
+    return;
+  }
+
   // Traverse the list to find the task with the given ID
   while (current_node) {
     if (current_node->task_->GetID() == id) {

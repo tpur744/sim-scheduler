@@ -40,6 +40,7 @@ class Core {
   void TickForward();
 
   void RemoveTask(int id);
+
   Task* GetTask(int id);
 };
 

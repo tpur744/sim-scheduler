@@ -159,14 +159,6 @@ void App::RemoveTask(const std::string &task_id) {
 
   int id = std::stoi(task_id);
 
-  // Check if the task is the one currently being executed (front of the list)
-  /*Task *frontTask =
-      sim_scheduler_.GetTaskAtFront();  // You may need to implement this method
-  if (frontTask != nullptr && frontTask->GetID() == id) {
-    std::cout << "Task " << task_id << " is currently being executed."
-              << std::endl;
-    return;
-  } */
   // Now remove the task
   sim_scheduler_.RemoveTask(id);
 }
@@ -195,7 +187,6 @@ void App::ShowCore(const std::string &excore_id) const {
   }
 
   Core *core = sim_scheduler_.GetCore(id);
-  std::cout << "getting core at address " << core << std::endl;
   if (core == nullptr) {
     std::cout << "No core with ID " << excore_id << "." << std::endl;
     return;
