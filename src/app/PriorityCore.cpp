@@ -29,13 +29,16 @@ void PriorityCore::AddTask(Task* task) {
 
   // Increase the pending time
   pending_time_ += task->GetTime();
-  assigned_task_count_++;  // Increment assigned task count
+  // assigned_task_count_++;  // Increment assigned task count
 }
 
 void PriorityCore::AssignTask(Task* task) {
   if (!task->IsAssigned()) {  // Check if the task is already assigned
-    AddTask(task);            // Add the task
+    AddTask(task);            // Increment assigned task count
     task->MarkAsAssigned();   // Mark the task as assigned
+    assigned_task_count_++;
+    std::cout << "assigned task count: " << assigned_task_count_ << std::endl;
+    std::cout << "Assigning task to Priority core" << std::endl;
   }
 }
 
