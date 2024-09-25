@@ -42,6 +42,8 @@ class Core {
   void RemoveTask(int id, bool print_output = true, bool allow_removal = false);
 
   Task* GetTask(int id);
+
+  bool HasTask(int id);
 };
 
 #endif

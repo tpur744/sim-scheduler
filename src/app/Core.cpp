@@ -123,6 +123,17 @@ void Core::RemoveTask(int id, bool print_output, bool allow_removal) {
   }
 }
 
+bool Core::HasTask(int id) {
+  TaskNode* current_node = head_;
+  while (current_node) {
+    if (current_node->task_->GetID() == id) {
+      return true;  // Task found
+    }
+    current_node = current_node->next_;
+  }
+  return false;  // Task not found
+}
+
 Task* Core::GetTask(int id) {
   TaskNode* current_node = head_;
   while (current_node) {

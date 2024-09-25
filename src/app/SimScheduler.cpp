@@ -183,11 +183,20 @@ Task* SimScheduler::GetTask(int task_id) const {
 }
 
 void SimScheduler::RemoveTask(int id) {
+  bool task_removed = false;  // Flag to track if any task was removed
+
   for (int i = 0; i < core_count_; i++) {
-    cores_[i]->RemoveTask(id);
+    if (cores_[i]->HasTask(id)) {  // Check if the task exists in the core
+      cores_[i]->RemoveTask(id);   // Attempt to remove the task
+      task_removed = true;         // Update flag if removal was successful
+    }
+  }
+
+  // Output a message only if the task was not found in any core
+  if (!task_removed) {
+    std::cout << "No task with ID " << id << " found in any core." << std::endl;
   }
 }
-
 void SimScheduler::AddTaskToCore(int task_time, int priority,
                                  int arrival_time) {
   // Find the core with the lowest execution time
