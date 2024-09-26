@@ -10,7 +10,7 @@ class Task {
   int waiting_time_;   // Time waited before execution
   int executed_time_;  // Time taken to execute the task
   int arrival_time_;   // Time at which the task arrived
-  const int initial_time_ = time_;
+  const int initial_time_;
 
  public:
   // Constructor

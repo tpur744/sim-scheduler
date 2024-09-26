@@ -10,7 +10,8 @@ Task::Task(int id, int time, int priority, int arrival_time)
       waiting_time_(0),
       executed_time_(0),
       arrival_time_(arrival_time),
-      assigned_(false) {}  // Initialize assigned_
+      assigned_(false),
+      initial_time_(time) {}  // Initialize assigned_
 
 // Getters
 int Task::GetID() const { return id_; }
