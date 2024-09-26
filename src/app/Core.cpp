@@ -59,6 +59,7 @@ void Core::TickForward() {
 
     // Decrement the execution time for the current task
     current_task->DecrementTime();
+    pending_time_--;  // Decrement the pending time
 
     // If the task is finished (execution time reaches 0)
     if (current_task->GetPendingTime() <= 0) {

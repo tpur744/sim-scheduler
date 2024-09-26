@@ -228,6 +228,11 @@ void SimScheduler::AddTaskToCore(int task_time, int priority,
   }
   best_core->AddTask(
       new Task(task_counter_, task_time, priority, arrival_time));
+  std::cout << "added task to core " << best_core->GetID() << std::endl;
+  std::cout << "core " << best_core->GetID() << " has "
+            << best_core->GetAssignedTaskCount() << " tasks" << std::endl;
+  std::cout << "core " << best_core->GetID() << " has "
+            << best_core->GetPendingTime() << " pending time" << std::endl;
   task_counter_++;
 }
 
