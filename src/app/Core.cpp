@@ -61,7 +61,7 @@ void Core::TickForward() {
     current_task->DecrementTime();
 
     // If the task is finished (execution time reaches 0)
-    if (current_task->GetTime() <= 0) {
+    if (current_task->GetPendingTime() <= 0) {
       std::cout << "Removed task " << current_task->GetID()
                 << " which was executed after waiting "
                 << current_task->GetWaitingTime() << "." << std::endl;

@@ -10,6 +10,7 @@ class Task {
   int waiting_time_;   // Time waited before execution
   int executed_time_;  // Time taken to execute the task
   int arrival_time_;   // Time at which the task arrived
+  const int initial_time_ = time_;
 
  public:
   // Constructor
@@ -30,6 +31,7 @@ class Task {
   Task* GetNext() const;     // Get next task in the list
   void SetNext(Task* next);  // Set the next task
   bool assigned_ = false;
+  int GetPendingTime() const;
 
   // Destructor
   ~Task();

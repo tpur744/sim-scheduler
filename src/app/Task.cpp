@@ -27,7 +27,6 @@ void Task::MarkAsAssigned() { assigned_ = true; }
 
 void Task::DecrementTime() {
   if (time_ > 0) {
-    time_--;
     executed_time_++;
   }
 }
@@ -37,3 +36,4 @@ void Task::IncrementWaitingTime() { waiting_time_++; }
 int Task::GetExecutedTime() const { return executed_time_; }
 int Task::GetArrivalTime() const { return arrival_time_; }
 Task::~Task() {}
+int Task::GetPendingTime() const { return initial_time_ - executed_time_; }

@@ -205,6 +205,7 @@ void SimScheduler::RemoveTask(int id) {
     std::cout << "No task with ID " << id << "." << std::endl;
   }
 }
+
 void SimScheduler::AddTaskToCore(int task_time, int priority,
                                  int arrival_time) {
   // Find the core with the lowest execution time
@@ -237,7 +238,7 @@ void SimScheduler::ShowTask(int task_id) const {
     if (task) {
       std::cout << "Task " << task->GetID() << ", time arrival "
                 << task->GetArrivalTime() << ", task time " << task->GetTime()
-                << ", pending execution time " << task->GetExecutedTime()
+                << ", pending execution time " << task->GetPendingTime()
                 << ", priority " << task->GetPriority() << "." << std::endl;
       return;
     }
