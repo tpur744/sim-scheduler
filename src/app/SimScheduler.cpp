@@ -90,13 +90,21 @@ bool SimScheduler::RemoveCore(int core_id) {
   }
 
   if (cores_[core_id] != nullptr) {
-    delete cores_[core_id];     // Free the memory for the core
-    cores_[core_id] = nullptr;  // Mark the core as removed
-    return true;                // Indicate success
+    // Check if the core is empty before removal
+    if (cores_[core_id]->IsEmpty()) {
+      delete cores_[core_id];     // Free the memory for the core
+      cores_[core_id] = nullptr;  // Mark the core as removed
+      return true;                // Indicate success
+    } else {
+      std::cout << "Core " << core_id << " is currently executing a task."
+                << std::endl;
+      return false;  // Core has tasks, so it cannot be removed
+    }
   }
 
-  return false;  // Core was already removed
+  return false;  // Core was already removed or was null
 }
+
 // REMOVE THIS CODE
 int SimScheduler::AddTask(int time, int priority, int arrival_time) {
   // Create a new Task object

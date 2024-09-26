@@ -107,8 +107,6 @@ void App::RemoveCore(const std::string &core_id) {
 
   if (sim_scheduler_.RemoveCore(id)) {
     std::cout << "Removed core " << id << "." << std::endl;
-  } else {
-    std::cout << "Core " << id << "is currently executing a task." << std::endl;
   }
 }
 

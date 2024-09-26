@@ -44,6 +44,8 @@ class Core {
   Task* GetTask(int id);
 
   bool HasTask(int id);
+
+  bool IsEmpty() const;
 };
 
 #endif

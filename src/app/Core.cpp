@@ -143,3 +143,5 @@ Task* Core::GetTask(int id) {
   }
   return nullptr;  // Task not found
 }
+
+bool Core::IsEmpty() const { return head_ == nullptr; }
