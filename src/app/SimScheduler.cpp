@@ -105,66 +105,6 @@ bool SimScheduler::RemoveCore(int core_id) {
   return false;  // Core was already removed or was null
 }
 
-int SimScheduler::AddTask(int time, int priority, int arrival_time) {
-  // Create a new Task object
-  Task* new_task = new Task(task_counter_, time, priority, arrival_time);
-  task_counter_++;
-
-  // Create a new TaskNode to hold the Task
-  TaskNode* new_task_node =
-      new TaskNode(new_task);  // Correctly initialize TaskNode
-
-  if (task_list_head_ == nullptr) {
-    task_list_head_ = new_task_node;  // Set the head to the new TaskNode
-  } else {
-    TaskNode* current_node = task_list_head_;
-    while (current_node->next_ != nullptr) {
-      current_node = current_node->next_;  // Traverse to the end
-    }
-    current_node->next_ = new_task_node;  // Link the new TaskNode
-  }
-
-  return new_task->GetID();  // Return the ID of the newly added task
-}
-
-void SimScheduler::AssignTasks() {
-  TaskNode* current_node = task_list_head_;
-
-  while (current_node) {
-    Core* best_core = nullptr;
-    int lowest_pending_time =
-        INT_MAX;  // Start with a high value for comparison
-
-    // Evaluate all cores to find the best one for this task
-    for (int i = 0; i < core_count_; ++i) {
-      Core* core = cores_[i];
-      if (core) {
-        int pending_time =
-            core->GetPendingTime();  // Get the pending time for this core
-
-        // Check if this core is a better fit
-        if (pending_time < lowest_pending_time) {
-          lowest_pending_time = pending_time;
-          best_core = core;  // Update best core
-        } else if (pending_time == lowest_pending_time) {
-          // If there's a tie, choose the one with the lower ID
-          if (best_core == nullptr || core->GetID() < best_core->GetID()) {
-            best_core = core;
-          }
-        }
-      }
-    }
-
-    if (best_core) {
-      best_core->AssignTask(current_node->task_);  // Use task_ from TaskNode
-    }
-
-    // Move to the next TaskNode in the list
-    current_node = current_node->next_;
-  }
-}
-// END REMOVE
-
 void SimScheduler::TickTock(int num_ticks) {
   // go through the number of ticks
   // loop through the cores

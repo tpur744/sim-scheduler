@@ -41,11 +41,7 @@ class SimScheduler {
 
   Core* GetCore(int core_id) const;
 
-  int AddTask(int time, int priority, int arrival_time);
-
   void ClearTasks();
-
-  void AssignTasks();
 
   void TickTock(int numTicks);
 
