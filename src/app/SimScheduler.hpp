@@ -31,7 +31,7 @@ class SimScheduler {
   bool IsSchedulerAdded() const;
 
   // Method to check if any cores are present
-  bool HasCores() const;  // Ensure this is declared as const
+  bool HasCores() const;
 
   int GetNextCoreID() const;
 

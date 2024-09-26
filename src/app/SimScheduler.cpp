@@ -1,5 +1,6 @@
 #include "SimScheduler.hpp"
 
+#include <climits>
 #include <iostream>
 #include <string>
 
