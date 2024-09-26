@@ -125,19 +125,6 @@ void App::AddTask(const std::string &task_time, const std::string &priority) {
     std::cout << "Invalid time or priority." << std::endl;
     return;
   }
-  // REMOVE THIS CODE AT SOME POINT
-  // int time = std::stoi(task_time);
-  // int prio = std::stoi(priority);
-
-  // // Add the task and retrieve its ID
-  // int task_id = sim_scheduler_.AddTask(time, prio, current_time_);
-
-  // std::cout << "Added task with ID " << task_id << ", task time of " << time
-  //           << ", and priority of " << prio << "." << std::endl;
-
-  // // Now assign the tasks to available cores
-  // sim_scheduler_.AssignTasks();
-  // END REMOVE
 
   sim_scheduler_.AddTaskToCore(std::stoi(task_time), std::stoi(priority),
                                current_time_);
