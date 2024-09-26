@@ -43,8 +43,16 @@ void Core::IncrementCompletedTaskCount() { completed_task_count_++; }
 // increment waiting time by one  for the other tasks
 // if the task is complete, remove the task and print the task id and waiting
 // time
-
 void Core::TickForward() {
+  // For all other tasks in the queue, increment their waiting time
+  TaskNode* current_node =
+      head_ ? head_->next_ : nullptr;  // Start from the next task
+  while (current_node) {
+    current_node->task_
+        ->IncrementWaitingTime();  // Increase waiting time for queued tasks
+    current_node = current_node->next_;  // Move to the next task node
+  }
+
   // Check if there is a task at the head (i.e., a task being executed)
   if (head_) {
     Task* current_task = head_->task_;
@@ -60,16 +68,8 @@ void Core::TickForward() {
 
       // Remove the completed task
       RemoveTask(current_task->GetID(), false, true);
+      CompleteTask();  // Increment completed tasks
     }
-  }
-
-  // For all other tasks in the queue, increment their waiting time
-  TaskNode* current_node =
-      head_ ? head_->next_ : nullptr;  // Start from the next task
-  while (current_node) {
-    current_node->task_
-        ->IncrementWaitingTime();  // Increase waiting time for queued tasks
-    current_node = current_node->next_;  // Move to the next task node
   }
 }
 

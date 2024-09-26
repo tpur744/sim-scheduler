@@ -13,7 +13,17 @@
 
 using namespace std;
 
+/*
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  DO NOT MODIFY EXISTING METHODS. You may add additional test cases if you wish.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+*/
+
 enum TestResult { TEST_RESULT_PASS, TEST_RESULT_FAIL };
+
+#include <sstream>
+#include <string>
+#include <vector>
 
 #define RUN_COMMAND(command_with_args)                           \
   cout << app.GetCommandPrefix() << command_with_args << "\n\r"; \
@@ -38,9 +48,10 @@ enum TestResult { TEST_RESULT_PASS, TEST_RESULT_FAIL };
   }                                                                            \
   if (output.find(expected) == std::string::npos) {                            \
     cerr << "FAILED Test " << test_number << " in " << __FILENAME__            \
-         << " on line " << __LINE__ << ":\n\r" << " Expected '" << expected    \
+         << " on line " << __LINE__ << ":\n\r" << "  Expected '" << expected   \
          << "' in the output, but it was not found." << "\n\r" << "\n\r"       \
          << "----------------------------------------------------------------" \
+            "------------"                                                     \
          << "\n\r" << "\n\r";                                                  \
     return TEST_RESULT_FAIL;                                                   \
   }
@@ -72,17 +83,18 @@ int main(int argc, char *argv[]) {
   bool still_capturing_cout = true;
   std::stringstream buffer;
   std::streambuf *old = std::cout.rdbuf(buffer.rdbuf());
-  int test_number = std::stoi(argv[1]);
 
+  int test_number = std::stoi(argv[1]);
   switch (test_number) {
-    case 1:
+    case 1:  //
       RUN_COMMAND("add-scheduler");
       RUN_COMMAND("remove-scheduler");
       RUN_COMMAND("exit");
       EXPECT_CONTAINS("Added scheduler");
       EXPECT_CONTAINS("Removed scheduler");
       break;
-    case 2:
+
+    case 2:  //
       RUN_COMMAND("add-scheduler");
       RUN_COMMAND("add-scheduler");
       RUN_COMMAND("add-core fifo");
@@ -99,7 +111,8 @@ int main(int argc, char *argv[]) {
       EXPECT_CONTAINS("Removed core 0.");
       EXPECT_CONTAINS("Removed scheduler.");
       break;
-    case 3:
+
+    case 3:  //
       RUN_COMMAND("add-scheduler");
       RUN_COMMAND("add-core fifo");
       RUN_COMMAND("add-core fifo");
@@ -126,7 +139,8 @@ int main(int argc, char *argv[]) {
       EXPECT_CONTAINS("Removed core 3.");
       EXPECT_CONTAINS("Removed scheduler.");
       break;
-    case 4:
+
+    case 4:  //
       RUN_COMMAND("add-scheduler");
       RUN_COMMAND("add-core fifo");
       RUN_COMMAND("add-core priority");
@@ -152,7 +166,8 @@ int main(int argc, char *argv[]) {
       EXPECT_CONTAINS("Cannot perform that operation without a core.");
       EXPECT_CONTAINS("Removed scheduler.");
       break;
-    case 5:
+
+    case 5:  //
       RUN_COMMAND("add-scheduler");
       RUN_COMMAND("add-core priority");
       RUN_COMMAND("add-core priority");
@@ -179,39 +194,234 @@ int main(int argc, char *argv[]) {
       RUN_COMMAND("remove-core 2");
       RUN_COMMAND("remove-scheduler");
       RUN_COMMAND("exit");
+      EXPECT_CONTAINS("Added scheduler.")
+      EXPECT_CONTAINS("Added core of type 'priority' with ID 0.")
+      EXPECT_CONTAINS("Added core of type 'priority' with ID 1.")
+      EXPECT_CONTAINS("Added core of type 'priority' with ID 2.")
+      EXPECT_CONTAINS(
+          "Added task with ID 0, task time of 5, and priority of 10.")
+      EXPECT_CONTAINS(
+          "Added task with ID 1, task time of 5, and priority of 8.")
+      EXPECT_CONTAINS("SimScheduler clock is now 2.")
+      EXPECT_CONTAINS("Task 1 is currently being executed.")
+      EXPECT_CONTAINS(
+          "Core 0 is currently assigned 1 task(s) and has completed 0 task(s).")
+      EXPECT_CONTAINS("Removed task 0 which was executed after waiting 0.")
+      EXPECT_CONTAINS("Removed task 1 which was executed after waiting 0.")
+      EXPECT_CONTAINS("SimScheduler clock is now 7.")
+      EXPECT_CONTAINS(
+          "Added task with ID 2, task time of 5, and priority of 10.")
+      EXPECT_CONTAINS(
+          "Added task with ID 3, task time of 10, and priority of 10.")
+      EXPECT_CONTAINS(
+          "Added task with ID 4, task time of 2, and priority of 10.")
+      EXPECT_CONTAINS(
+          "Added task with ID 5, task time of 2, and priority of 1.")
+      EXPECT_CONTAINS(
+          "Added task with ID 6, task time of 10, and priority of 1.")
+      EXPECT_CONTAINS(
+          "Added task with ID 7, task time of 20, and priority of 1.")
+      EXPECT_CONTAINS("Removed task 5 which was executed after waiting 0.")
+      EXPECT_CONTAINS("Removed task 3 which was executed after waiting 0.")
+      EXPECT_CONTAINS("SimScheduler clock is now 17.")
+      EXPECT_CONTAINS(
+          "Core 0 is currently assigned 2 task(s) and has completed 1 task(s).")
+      EXPECT_CONTAINS(
+          "Core 1 is currently assigned 0 task(s) and has completed 2 task(s).")
+      EXPECT_CONTAINS(
+          "Core 2 is currently assigned 2 task(s) and has completed 1 task(s).")
+      EXPECT_CONTAINS("Removed task 6 which was executed after waiting 2.")
+      EXPECT_CONTAINS("Removed task 4 which was executed after waiting 12.")
+      EXPECT_CONTAINS("Removed task 7 which was executed after waiting 0.")
+      EXPECT_CONTAINS("Removed task 2 which was executed after waiting 20.")
+      EXPECT_CONTAINS("SimScheduler clock is now 117.")
+      EXPECT_CONTAINS("Removed core 0.")
+      EXPECT_CONTAINS("Removed core 1.")
+      EXPECT_CONTAINS("Removed core 2.")
+      EXPECT_CONTAINS("Removed scheduler.")
+      break;
+
+    case 6:  //
+      RUN_COMMAND("add-scheduler");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core priority");
+      RUN_COMMAND("add-task 10 5");
+      RUN_COMMAND("add-task 2 5");
+      RUN_COMMAND("add-task 2 4");
+      RUN_COMMAND("add-task 2 3");
+      RUN_COMMAND("show-core 0");
+      RUN_COMMAND("show-core 1");
+      RUN_COMMAND("ticktock 2");
+      RUN_COMMAND("show-core 1");
+      RUN_COMMAND("ticktock 2");
+      RUN_COMMAND("ticktock 2");
+      RUN_COMMAND("show-core 0");
+      RUN_COMMAND("show-core 1");
+      RUN_COMMAND("ticktock 10");
       EXPECT_CONTAINS("Added scheduler.");
-      EXPECT_CONTAINS("Added core of type 'priority' with ID 0.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 0.");
       EXPECT_CONTAINS("Added core of type 'priority' with ID 1.");
-      EXPECT_CONTAINS("Added core of type 'priority' with ID 2.");
       EXPECT_CONTAINS(
-          "Added task with ID 0, task time of 5, and priority of 10.");
+          "Added task with ID 0, task time of 10, and priority of 5.");
       EXPECT_CONTAINS(
-          "Added task with ID 1, task time of 5, and priority of 8.");
-      EXPECT_CONTAINS("SimScheduler clock is now 2.");
-      EXPECT_CONTAINS("Task 1 is currently being executed.");
+          "Added task with ID 1, task time of 2, and priority of 5.");
+      EXPECT_CONTAINS(
+          "Added task with ID 2, task time of 2, and priority of 4.");
+      EXPECT_CONTAINS(
+          "Added task with ID 3, task time of 2, and priority of 3.");
       EXPECT_CONTAINS(
           "Core 0 is currently assigned 1 task(s) and has completed 0 "
           "task(s).");
-      EXPECT_CONTAINS("Removed task 0 which was executed after waiting 0.");
-      EXPECT_CONTAINS("Removed task 1 which was executed after waiting 0.");
-      EXPECT_CONTAINS("SimScheduler clock is now 7.");
       EXPECT_CONTAINS(
-          "Added task with ID 2, task time of 5, and priority of 10.");
-      EXPECT_CONTAINS(
-          "Added task with ID 3, task time of 10, and priority of 10.");
-      EXPECT_CONTAINS(
-          "Added task with ID 4, task time of 2, and priority of 10.");
-      EXPECT_CONTAINS(
-          "Added task with ID 5, task time of 2, and priority of 1.");
-      EXPECT_CONTAINS(
-          "Added task with ID 6, task time of 10, and priority of 1.");
-      EXPECT_CONTAINS(
-          "Added task with ID 7, task time of 20, and priority of 1.");
-      EXPECT_CONTAINS("Removed task 5 which was executed after waiting 0.");
+          "Core 1 is currently assigned 3 task(s) and has completed 0 "
+          "task(s).");
       EXPECT_CONTAINS("Removed task 3 which was executed after waiting 0.");
-      EXPECT_CONTAINS("SimScheduler clock is now 17.");
+      EXPECT_CONTAINS("SimScheduler clock is now 2.");
+      EXPECT_CONTAINS(
+          "Core 1 is currently assigned 2 task(s) and has completed 1 "
+          "task(s).");
+      EXPECT_CONTAINS("Removed task 2 which was executed after waiting 2.");
+      EXPECT_CONTAINS("SimScheduler clock is now 4.");
+      EXPECT_CONTAINS("Removed task 1 which was executed after waiting 4.");
+      EXPECT_CONTAINS("SimScheduler clock is now 6.");
+      EXPECT_CONTAINS(
+          "Core 0 is currently assigned 1 task(s) and has completed 0 "
+          "task(s).");
+      EXPECT_CONTAINS(
+          "Core 1 is currently assigned 0 task(s) and has completed 3 "
+          "task(s).");
+      EXPECT_CONTAINS("Removed task 0 which was executed after waiting 0.");
+      EXPECT_CONTAINS("SimScheduler clock is now 16.");
+      break;
+
+    case 7:  //
+      RUN_COMMAND("add-scheduler");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core priority");
+      RUN_COMMAND("add-task 5 2");
+      RUN_COMMAND("add-task 4 2");
+      RUN_COMMAND("add-task 4 1");
+      RUN_COMMAND("add-task 5 7");
+      RUN_COMMAND("show-core 0");
+      RUN_COMMAND("show-core 1");
+      RUN_COMMAND("ticktock 8");
+      RUN_COMMAND("show-core 0");
+      RUN_COMMAND("show-core 1");
+      RUN_COMMAND("ticktock 5");
+      RUN_COMMAND("remove-core 0");
+      RUN_COMMAND("remove-core 1");
+      RUN_COMMAND("exit");
+      EXPECT_CONTAINS("Added scheduler.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 0.");
+      EXPECT_CONTAINS("Added core of type 'priority' with ID 1.");
+      EXPECT_CONTAINS(
+          "Added task with ID 0, task time of 5, and priority of 2.");
+      EXPECT_CONTAINS(
+          "Added task with ID 1, task time of 4, and priority of 2.");
+      EXPECT_CONTAINS(
+          "Added task with ID 2, task time of 4, and priority of 1.");
+      EXPECT_CONTAINS(
+          "Added task with ID 3, task time of 5, and priority of 7.");
       EXPECT_CONTAINS(
           "Core 0 is currently assigned 2 task(s) and has completed 0 "
+          "task(s).");
+      EXPECT_CONTAINS(
+          "Core 1 is currently assigned 2 task(s) and has completed 0 "
+          "task(s).");
+      EXPECT_CONTAINS("Removed task 2 which was executed after waiting 0.");
+      EXPECT_CONTAINS("Removed task 0 which was executed after waiting 0.");
+      EXPECT_CONTAINS("Removed task 1 which was executed after waiting 4.");
+      EXPECT_CONTAINS("SimScheduler clock is now 8.");
+      EXPECT_CONTAINS(
+          "Core 0 is currently assigned 1 task(s) and has completed 1 "
+          "task(s).");
+      EXPECT_CONTAINS(
+          "Core 1 is currently assigned 0 task(s) and has completed 2 "
+          "task(s).");
+      EXPECT_CONTAINS("Removed task 3 which was executed after waiting 5.");
+      EXPECT_CONTAINS("SimScheduler clock is now 13.");
+      EXPECT_CONTAINS("Removed core 0.");
+      EXPECT_CONTAINS("Removed core 1.");
+      break;
+
+    case 8:  //
+      RUN_COMMAND("add-scheduler");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("remove-core 2");
+      RUN_COMMAND("show-core 2");
+      EXPECT_CONTAINS("Added scheduler.")
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 0.")
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 1.")
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 2.")
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 3.")
+      EXPECT_CONTAINS("Removed core 2.")
+      EXPECT_CONTAINS("No core with ID 2.")
+      break;
+
+    case 9:  //
+      RUN_COMMAND("add-scheduler");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("exit")
+      EXPECT_CONTAINS("Added scheduler.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 0.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 1.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 2.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 3.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 4.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 5.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 6.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 7.");
+      EXPECT_CONTAINS("Cannot add another core.");
+      break;
+
+    case 10:  //
+      RUN_COMMAND("add-scheduler");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-core priority");
+      RUN_COMMAND("add-core priority");
+      RUN_COMMAND("add-task 10 5");
+      RUN_COMMAND("add-task 2 5");
+      RUN_COMMAND("add-task 2 4");
+      RUN_COMMAND("add-task 2 3");
+      RUN_COMMAND("show-core 0");
+      RUN_COMMAND("show-core 1");
+      RUN_COMMAND("show-core 2");
+      RUN_COMMAND("show-core 3");
+      RUN_COMMAND("remove-core 3");
+      RUN_COMMAND("remove-core 2");
+      RUN_COMMAND("ticktock 2");
+      RUN_COMMAND("show-core 1");
+      RUN_COMMAND("ticktock 2");
+      RUN_COMMAND("ticktock 2");
+      RUN_COMMAND("show-core 0");
+      RUN_COMMAND("show-core 1");
+      RUN_COMMAND("show-core 2");
+      RUN_COMMAND("ticktock 10");
+      EXPECT_CONTAINS("Added scheduler.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 0.");
+      EXPECT_CONTAINS("Added core of type 'priority' with ID 1.");
+      EXPECT_CONTAINS("Added core of type 'priority' with ID 2.");
+      EXPECT_CONTAINS(
+          "Added task with ID 0, task time of 10, and priority of 5.");
+      EXPECT_CONTAINS(
+          "Added task with ID 1, task time of 2, and priority of 5.");
+      EXPECT_CONTAINS(
+          "Added task with ID 2, task time of 2, and priority of 4.");
+      EXPECT_CONTAINS(
+          "Added task with ID 3, task time of 2, and priority of 3.");
+      EXPECT_CONTAINS(
+          "Core 0 is currently assigned 1 task(s) and has completed 0 "
           "task(s).");
       EXPECT_CONTAINS(
           "Core 1 is currently assigned 2 task(s) and has completed 0 "
@@ -219,16 +429,118 @@ int main(int argc, char *argv[]) {
       EXPECT_CONTAINS(
           "Core 2 is currently assigned 1 task(s) and has completed 0 "
           "task(s).");
-      EXPECT_CONTAINS("SimScheduler clock is now 100.");
+      EXPECT_CONTAINS("No core with ID 3.");
+      EXPECT_CONTAINS("No core with ID 3.");
+      EXPECT_CONTAINS("Core 2 is currently executing a task.");
+      EXPECT_CONTAINS("Removed task 3 which was executed after waiting 0.");
+      EXPECT_CONTAINS("Removed task 2 which was executed after waiting 0.");
+      EXPECT_CONTAINS("SimScheduler clock is now 2.");
+      EXPECT_CONTAINS(
+          "Core 1 is currently assigned 1 task(s) and has completed 1 "
+          "task(s).");
+      EXPECT_CONTAINS("Removed task 1 which was executed after waiting 2.");
+      EXPECT_CONTAINS("SimScheduler clock is now 4.");
+      EXPECT_CONTAINS("SimScheduler clock is now 6.");
+      EXPECT_CONTAINS(
+          "Core 0 is currently assigned 1 task(s) and has completed 0 "
+          "task(s).");
+      EXPECT_CONTAINS(
+          "Core 1 is currently assigned 0 task(s) and has completed 2 "
+          "task(s).");
+      EXPECT_CONTAINS(
+          "Core 2 is currently assigned 0 task(s) and has completed 1 "
+          "task(s).");
+      EXPECT_CONTAINS("Removed task 0 which was executed after waiting 0.");
+      EXPECT_CONTAINS("SimScheduler clock is now 16.");
+      break;
+
+    case 11:  //
+      RUN_COMMAND("add-scheduler");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-task 10 10");
+      RUN_COMMAND("add-task 10 10");
+      RUN_COMMAND("show-task 0");
+      RUN_COMMAND("show-task 1");
+      RUN_COMMAND("show-task 2");
+      RUN_COMMAND("remove-task 0");
+      RUN_COMMAND("remove-task 1");
+      RUN_COMMAND("ticktock 20");
+      RUN_COMMAND("remove-core 0");
+      RUN_COMMAND("remove-scheduler");
+      EXPECT_CONTAINS("Added scheduler.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 0.");
+      EXPECT_CONTAINS(
+          "Added task with ID 0, task time of 10, and priority of 10.");
+      EXPECT_CONTAINS(
+          "Added task with ID 1, task time of 10, and priority of 10.");
+      EXPECT_CONTAINS(
+          "Task 0, time arrival 0, task time 10, pending execution time 10, "
+          "priority 10.");
+      EXPECT_CONTAINS(
+          "Task 1, time arrival 0, task time 10, pending execution time 10, "
+          "priority 10.");
+      EXPECT_CONTAINS("No task with ID 2.");
+      EXPECT_CONTAINS("Task 0 is currently being executed.");
+      EXPECT_CONTAINS("Removed task 1 which was not executed after waiting 0.");
+      EXPECT_CONTAINS("Removed task 0 which was executed after waiting 0.");
+      EXPECT_CONTAINS("SimScheduler clock is now 20.");
       EXPECT_CONTAINS("Removed core 0.");
-      EXPECT_CONTAINS("Removed core 1.");
-      EXPECT_CONTAINS("Removed core 2.");
       EXPECT_CONTAINS("Removed scheduler.");
       break;
+
+    case 12:  //
+      RUN_COMMAND("add-scheduler");
+      RUN_COMMAND("add-core fifo");
+      RUN_COMMAND("add-task 10 10");
+      RUN_COMMAND("ticktock 5");
+      RUN_COMMAND("add-task 9 9  ");
+      RUN_COMMAND("show-core 0");
+      RUN_COMMAND("show-task 0");
+      RUN_COMMAND("show-task 1");
+      RUN_COMMAND("ticktock 2");
+      RUN_COMMAND("show-task 0");
+      RUN_COMMAND("show-task 1");
+      RUN_COMMAND("ticktock 20");
+      RUN_COMMAND("remove-core 0");
+      RUN_COMMAND("remove-scheduler");
+      EXPECT_CONTAINS("Added scheduler.");
+      EXPECT_CONTAINS("Added core of type 'fifo' with ID 0.");
+      EXPECT_CONTAINS(
+          "Added task with ID 0, task time of 10, and priority of 10.");
+      EXPECT_CONTAINS("SimScheduler clock is now 5.");
+      EXPECT_CONTAINS(
+          "Added task with ID 1, task time of 9, and priority of 9.");
+      EXPECT_CONTAINS(
+          "Core 0 is currently assigned 2 task(s) and has completed 0 "
+          "task(s).");
+      EXPECT_CONTAINS(
+          "Task 0, time arrival 0, task time 10, pending execution time 5, "
+          "priority 10.");
+      EXPECT_CONTAINS(
+          "Task 1, time arrival 5, task time 9, pending execution time 9, "
+          "priority 9.");
+      EXPECT_CONTAINS("SimScheduler clock is now 7.");
+      EXPECT_CONTAINS(
+          "Task 0, time arrival 0, task time 10, pending execution time 3, "
+          "priority 10.");
+      EXPECT_CONTAINS(
+          "Task 1, time arrival 5, task time 9, pending execution time 9, "
+          "priority 9.");
+      EXPECT_CONTAINS("Removed task 0 which was executed after waiting 0.");
+      EXPECT_CONTAINS("Removed task 1 which was executed after waiting 5.");
+      EXPECT_CONTAINS("SimScheduler clock is now 27.");
+      EXPECT_CONTAINS("Removed core 0.");
+      EXPECT_CONTAINS("Removed scheduler.");
+      break;
+
     default:
-      cerr << "Unknown test case: " << test_number << endl;
+      cerr << "Test case not found: #" << test_number << endl;
       return TEST_RESULT_FAIL;
   }
 
+  cerr << "PASSED Test " << test_number << "." << "\n\r" << "\n\r"
+       << "--------------------------------------------------------------------"
+          "--------"
+       << "\n\r" << "\n\r";
   return TEST_RESULT_PASS;
 }
