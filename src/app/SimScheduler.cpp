@@ -87,20 +87,23 @@ Core* SimScheduler::GetCore(int id) const {
 
 bool SimScheduler::RemoveCore(int core_id) {
   if (core_id < 0 || core_id >= core_count_) {
+    std::cout << "No core with ID " << core_id << "." << std::endl;
     return false;  // Invalid core ID
   }
 
-  if (cores_[core_id] != nullptr) {
-    // Check if the core is empty before removal
-    if (cores_[core_id]->IsEmpty()) {
-      delete cores_[core_id];     // Free the memory for the core
-      cores_[core_id] = nullptr;  // Mark the core as removed
-      return true;                // Indicate success
-    } else {
-      std::cout << "Core " << core_id << " is currently executing a task."
-                << std::endl;
-      return false;  // Core has tasks, so it cannot be removed
-    }
+  if (cores_[core_id] == nullptr) {
+    std::cout << "No core with ID " << core_id << "." << std::endl;
+    return false;  // Core was already removed
+  }
+  // Check if the core is empty before removal
+  if (cores_[core_id]->IsEmpty()) {
+    delete cores_[core_id];     // Free the memory for the core
+    cores_[core_id] = nullptr;  // Mark the core as removed
+    return true;                // Indicate success
+  } else {
+    std::cout << "Core " << core_id << " is currently executing a task."
+              << std::endl;
+    return false;  // Core has tasks, so it cannot be removed
   }
 
   return false;  // Core was already removed or was null
