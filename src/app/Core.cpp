@@ -54,9 +54,9 @@ void Core::TickForward() {
 
     // If the task is finished (execution time reaches 0)
     if (current_task->GetTime() <= 0) {
-      std::cout << "Task " << current_task->GetID()
-                << " completed after waiting " << current_task->GetWaitingTime()
-                << "." << std::endl;
+      std::cout << "Removed task " << current_task->GetID()
+                << " which was executed after waiting "
+                << current_task->GetWaitingTime() << "." << std::endl;
 
       // Remove the completed task
       RemoveTask(current_task->GetID(), false, true);
@@ -76,8 +76,7 @@ void Core::TickForward() {
 void Core::RemoveTask(int id, bool print_output, bool allow_removal) {
   // Check if the task is the head (currently being executed)
   if (!allow_removal && head_ && head_->task_->GetID() == id) {
-    std::cout << "Cannot remove task " << id
-              << " as it is currently being executed." << std::endl;
+    std::cout << "Task " << id << " is currently being executed." << std::endl;
     return;  // Return immediately to avoid further checks or output
   }
 

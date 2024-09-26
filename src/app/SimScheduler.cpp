@@ -194,7 +194,7 @@ void SimScheduler::RemoveTask(int id) {
 
   // Output a message only if the task was not found in any core
   if (!task_removed) {
-    std::cout << "No task with ID " << id << " found in any core." << std::endl;
+    std::cout << "No task with ID " << id << "." << std::endl;
   }
 }
 void SimScheduler::AddTaskToCore(int task_time, int priority,
