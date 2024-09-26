@@ -44,9 +44,10 @@ void Core::IncrementCompletedTaskCount() { completed_task_count_++; }
 // if the task is complete, remove the task and print the task id and waiting
 // time
 void Core::TickForward() {
+  std::cout << "Current head pointer: " << head_ << std::endl;
   // For all other tasks in the queue, increment their waiting time
   TaskNode* current_node =
-      head_ ? head_->next_ : nullptr;  // Start from the next task
+      head_ == nullptr ? head_->next_ : nullptr;  // Start from the next task
   while (current_node) {
     current_node->task_
         ->IncrementWaitingTime();  // Increase waiting time for queued tasks

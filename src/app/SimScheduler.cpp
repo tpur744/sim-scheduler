@@ -115,7 +115,9 @@ void SimScheduler::TickTock(int num_ticks) {
   // run the core tick forward function
   for (int i = 0; i < num_ticks; i++) {
     for (int j = 0; j < core_count_; j++) {
-      cores_[j]->TickForward();
+      if (cores_[j] != nullptr) {
+        cores_[j]->TickForward();
+      }
     }
   }
 }
