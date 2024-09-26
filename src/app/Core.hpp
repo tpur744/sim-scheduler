@@ -9,7 +9,7 @@ class Core {
   int pending_time_;
   int assigned_task_count_;
   int completed_task_count_;
-  TaskNode* head_;  // Pointer to the head of the task list
+  TaskNode* head_ = nullptr;  // Pointer to the head of the task list
 
  public:
   // Constructor to initialize the Core with an ID
