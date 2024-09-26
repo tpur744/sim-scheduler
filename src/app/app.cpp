@@ -23,6 +23,11 @@ App::App() : current_time_(0) {}
 App::~App() {}
 
 void App::TickTock(const std::string &num_ticktock) {
+  if (!sim_scheduler_.IsSchedulerAdded()) {
+    std::cout << "Cannot perform that operation without a scheduler."
+              << std::endl;
+    return;
+  }
   int numTicks = std::stoi(num_ticktock);
   current_time_ += numTicks;
   sim_scheduler_.TickTock(numTicks);
@@ -112,7 +117,8 @@ void App::RemoveCore(const std::string &core_id) {
 
 void App::AddTask(const std::string &task_time, const std::string &priority) {
   if (!sim_scheduler_.IsSchedulerAdded()) {
-    std::cout << "Cannot add a task without a scheduler." << std::endl;
+    std::cout << "Cannot perform that operation without a scheduler."
+              << std::endl;
     return;
   }
 
