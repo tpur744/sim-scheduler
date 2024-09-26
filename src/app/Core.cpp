@@ -101,6 +101,7 @@ void Core::RemoveTask(int id, bool print_output, bool allow_removal) {
       // Free memory
       delete current_node->task_;  // Free the task
       delete current_node;         // Free the TaskNode
+      current_node = nullptr;
 
       // Output status if print_output is true
       if (print_output) {

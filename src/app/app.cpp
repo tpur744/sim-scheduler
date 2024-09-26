@@ -28,9 +28,9 @@ void App::TickTock(const std::string &num_ticktock) {
               << std::endl;
     return;
   }
-  int numTicks = std::stoi(num_ticktock);
-  current_time_ += numTicks;
-  sim_scheduler_.TickTock(numTicks);
+  int num_ticks = std::stoi(num_ticktock);
+  current_time_ += num_ticks;
+  sim_scheduler_.TickTock(num_ticks);
   std::cout << "SimScheduler clock is now " << current_time_ << "."
             << std::endl;
 }
@@ -72,10 +72,10 @@ void App::AddCore(const std::string &core_type) {
   }
 
   Core *newCore = nullptr;
-  std::string lowerCoreType = Utils::GetLowercase(core_type);
-  if (lowerCoreType == "fifo") {
+  std::string lower_core_type = Utils::GetLowercase(core_type);
+  if (lower_core_type == "fifo") {
     newCore = new FIFOCore(sim_scheduler_.GetNextCoreID());
-  } else if (lowerCoreType == "priority") {
+  } else if (lower_core_type == "priority") {
     newCore = new PriorityCore(sim_scheduler_.GetNextCoreID());
   } else {
     cout << "Specified core type is unknown." << endl;
@@ -83,7 +83,7 @@ void App::AddCore(const std::string &core_type) {
   }
 
   sim_scheduler_.AddCore(newCore);
-  cout << "Added core of type '" << lowerCoreType << "' with ID "
+  cout << "Added core of type '" << lower_core_type << "' with ID "
        << sim_scheduler_.GetNextCoreID() - 1 << "." << endl;
 }
 

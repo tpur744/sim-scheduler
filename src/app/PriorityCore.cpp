@@ -10,12 +10,12 @@ PriorityCore::PriorityCore(int id) : Core(id) {}
 
 // Override AddTask for priority behavior
 void PriorityCore::AddTask(Task* task) {
-  TaskNode* newTask = new TaskNode(task);  // Use the pointer to Task
+  TaskNode* new_task = new TaskNode(task);  // Use the pointer to Task
 
   // If the list is empty or the new task has higher priority than the head
   if (!head_ || task->GetPriority() < head_->task_->GetPriority()) {
-    newTask->next_ = head_;
-    head_ = newTask;
+    new_task->next_ = head_;
+    head_ = new_task;
   } else {
     // Find the correct position to insert the new task
     TaskNode* current = head_;
@@ -23,8 +23,8 @@ void PriorityCore::AddTask(Task* task) {
            current->next_->task_->GetPriority() <= task->GetPriority()) {
       current = current->next_;
     }
-    newTask->next_ = current->next_;
-    current->next_ = newTask;
+    new_task->next_ = current->next_;
+    current->next_ = new_task;
   }
 
   // Increase the pending time
