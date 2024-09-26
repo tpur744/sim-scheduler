@@ -12,16 +12,16 @@ FIFOCore::FIFOCore(int id) : Core(id), tail_(nullptr) {}
 // Add a task to the end of the linked list (FIFO behavior)
 void FIFOCore::AddTask(Task* task) {
   // Create a new TaskNode using the task pointer
-  TaskNode* newTask = new TaskNode(task);
+  TaskNode* new_task = new TaskNode(task);
 
   if (!head_) {
     // If the list is empty, the new task is both head and tail
-    head_ = newTask;
-    tail_ = newTask;
+    head_ = new_task;
+    tail_ = new_task;
   } else {
     // Add the new task to the end of the list
-    tail_->next_ = newTask;
-    tail_ = newTask;
+    tail_->next_ = new_task;
+    tail_ = new_task;
   }
 
   // Increase the pending time

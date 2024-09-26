@@ -43,7 +43,7 @@ class SimScheduler {
 
   void ClearTasks();
 
-  void TickTock(int numTicks);
+  void TickTock(int num_ticks);
 
   Task* GetTask(int task_id) const;
 
