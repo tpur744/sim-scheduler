@@ -118,6 +118,7 @@ void SimScheduler::TickTock(int num_ticks) {
       if (cores_[j] != nullptr) {
         cores_[j]->TickForward();
       }
+      //   cores_[j]->TickForward();
     }
   }
 }
