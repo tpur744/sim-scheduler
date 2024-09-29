@@ -66,7 +66,11 @@ void App::AddCore(const std::string &core_type) {
     return;
   }
 
-  if (sim_scheduler_.GetNextCoreID() >= 8) {
+  int next_core_id =
+      sim_scheduler_
+          .GetNextCoreID();  // Get the next available core ID before adding
+
+  if (next_core_id == -1) {
     cout << "Cannot add another core." << endl;
     return;
   }
@@ -74,9 +78,10 @@ void App::AddCore(const std::string &core_type) {
   Core *newCore = nullptr;
   std::string lower_core_type = Utils::GetLowercase(core_type);
   if (lower_core_type == "fifo") {
-    newCore = new FIFOCore(sim_scheduler_.GetNextCoreID());
+    newCore = new FIFOCore(next_core_id);  // Pass the stored ID to the new core
   } else if (lower_core_type == "priority") {
-    newCore = new PriorityCore(sim_scheduler_.GetNextCoreID());
+    newCore =
+        new PriorityCore(next_core_id);  // Pass the stored ID to the new core
   } else {
     cout << "Specified core type is unknown." << endl;
     return;
@@ -84,7 +89,7 @@ void App::AddCore(const std::string &core_type) {
 
   sim_scheduler_.AddCore(newCore);
   cout << "Added core of type '" << lower_core_type << "' with ID "
-       << sim_scheduler_.GetNextCoreID() - 1 << "." << endl;
+       << next_core_id << "." << endl;  // Use the stored ID in the output
 }
 
 void App::RemoveCore(const std::string &core_id) {
@@ -105,7 +110,7 @@ void App::RemoveCore(const std::string &core_id) {
   }
 
   int id = std::stoi(core_id);  // Convert core_id from string to integer
-  if (id < 0 || id >= sim_scheduler_.GetNextCoreID()) {
+  if (id < 0 || id >= 8) {
     std::cout << "No core with ID " << id << "." << std::endl;
     return;
   }
@@ -172,7 +177,7 @@ void App::ShowCore(const std::string &excore_id) const {
   }
 
   int id = std::stoi(excore_id);
-  if (id < 0 || id >= sim_scheduler_.GetNextCoreID()) {
+  if (id < 0 || id >= 8) {
     std::cout << "No core with ID " << excore_id << "." << std::endl;
     return;
   }

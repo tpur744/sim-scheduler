@@ -36,12 +36,12 @@ void SimScheduler::AddScheduler() {
 }
 
 bool SimScheduler::HasCores() const {
-  for (int i = 0; i < core_count_; ++i) {
+  for (int i = 0; i < 8; ++i) {  // Iterate over all core slots (fixed size 8)
     if (cores_[i] != nullptr) {
-      return true;  // Found a core that still exists
+      return true;  // Found at least one core
     }
   }
-  return false;  // No active cores
+  return false;  // No active cores found
 }
 
 // Method to remove the scheduler
@@ -68,20 +68,23 @@ bool SimScheduler::IsSchedulerAdded() const { return scheduler_added_; }
 
 // Method to add a core
 bool SimScheduler::AddCore(Core* core) {
-  // Find the first empty (nullptr) spot in the cores array
-  for (int i = 0; i < 8; ++i) {
-    if (cores_[i] == nullptr) {
-      cores_[i] = core;
-      core_count_++;
-      return true;  // Indicate successful addition
-    }
+  int next_core_id =
+      GetNextCoreID();  // Get the next available ID (recycled or new)
+  if (next_core_id != -1) {
+    cores_[next_core_id] = core;  // Assign the core to the recycled ID
+    core_count_++;
+    return true;  // Indicate successful addition
   }
-  return false;  // Indicate failure to add core (no space left)
+  return false;  // No space left to add the core
 }
 
 int SimScheduler::GetNextCoreID() const {
-  return core_count_;  // Returns the next available ID based on the current
-                       // count
+  for (int i = 0; i < 8; i++) {
+    if (cores_[i] == nullptr) {
+      return i;  // Return the first available core ID
+    }
+  }
+  return -1;  // No available core ID
 }
 
 Core* SimScheduler::GetCore(int id) const {
@@ -89,7 +92,7 @@ Core* SimScheduler::GetCore(int id) const {
 }
 
 bool SimScheduler::RemoveCore(int core_id) {
-  if (core_id < 0 || core_id >= core_count_) {
+  if (core_id < 0 || core_id >= 8) {
     std::cout << "No core with ID " << core_id << "." << std::endl;
     return false;  // Invalid core ID
   }
@@ -102,7 +105,9 @@ bool SimScheduler::RemoveCore(int core_id) {
   if (cores_[core_id]->IsEmpty()) {
     delete cores_[core_id];     // Free the memory for the core
     cores_[core_id] = nullptr;  // Mark the core as removed
-    return true;                // Indicate success
+    core_count_--;
+    return true;  // Indicate success
+
   } else {
     std::cout << "Core " << core_id << " is currently executing a task."
               << std::endl;
