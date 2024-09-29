@@ -203,24 +203,4 @@ void App::ShowTask(const std::string &task_id) const {
   // Convert task_id to integer
   int id = std::stoi(task_id);
   sim_scheduler_.ShowTask(id);
-
-  // // Retrieve the task from the SimScheduler
-  // Task *task = sim_scheduler_.GetTask(id);
-  // if (task == nullptr) {
-  //   std::cout << "No task with ID " << task_id << "." << std::endl;
-  //   return;
-  // }
-
-  // int elapsed_time =
-  //     current_time_ - task->GetExecutedTime();  // Adjust if needed
-  // int pending_execution_time = task->GetTime() - elapsed_time;
-  // if (pending_execution_time < 0) {
-  //   pending_execution_time = 0;  // Ensure it doesn't go negative
-  // }
-
-  // // Output task details
-  // std::cout << "Task " << task->GetID() << ", time arrival "
-  //           << task->GetArrivalTime() << ", task time " << task->GetTime()
-  //           << ", pending execution time " << pending_execution_time
-  //           << ", priority " << task->GetPriority() << "." << std::endl;
 }

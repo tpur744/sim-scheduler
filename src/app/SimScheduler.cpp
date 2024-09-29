@@ -68,12 +68,15 @@ bool SimScheduler::IsSchedulerAdded() const { return scheduler_added_; }
 
 // Method to add a core
 bool SimScheduler::AddCore(Core* core) {
-  if (core_count_ < 8) {  // Check if there's space for more cores
-    cores_[core_count_] = core;
-    core_count_++;
-    return true;  // Indicate successful addition
+  // Find the first empty (nullptr) spot in the cores array
+  for (int i = 0; i < 8; ++i) {
+    if (cores_[i] == nullptr) {
+      cores_[i] = core;
+      core_count_++;
+      return true;  // Indicate successful addition
+    }
   }
-  return false;  // Indicate failure to add core
+  return false;  // Indicate failure to add core (no space left)
 }
 
 int SimScheduler::GetNextCoreID() const {
@@ -189,4 +192,13 @@ void SimScheduler::ShowTask(int task_id) const {
   }
 
   std::cout << "No task with ID " << task_id << "." << std::endl;
+}
+
+bool SimScheduler::HasAvailableCoreSlot() const {
+  for (int i = 0; i < 8; i++) {
+    if (cores_[i] == nullptr) {
+      return true;  // Found an available slot
+    }
+  }
+  return false;  // No available slots
 }

@@ -53,6 +53,8 @@ class SimScheduler {
   void AddTaskToCore(int task_time, int priority, int arrival_time);
 
   void ShowTask(int task_id) const;
+
+  bool HasAvailableCoreSlot() const;
 };
 
 #endif  // SIMSCHEDULER_HPP
